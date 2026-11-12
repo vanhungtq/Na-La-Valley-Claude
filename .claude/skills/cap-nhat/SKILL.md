@@ -8,6 +8,8 @@ argument-hint: "<số tập> [final]"
 
 Mỗi lần chạy tạo ra **một bản báo cáo mới** (v2, v3…). Ảnh không cần đủ: có bao nhiêu xử lý bấy nhiêu.
 
+Ảnh đến từ app Nà Lạ Studio: lệnh này chạy **bên trong vòng của skill `studio`**. Sau khi `app_bridge.py pull` đã tải ảnh về và in danh sách "ẢNH THỰC TẾ CẦN NHẬN XÉT", bỏ qua lệnh `sync_inputs.py` ở mục 1 và dùng danh sách đó; kết thúc bằng việc đẩy kết quả lên app.
+
 ## 1. Đồng bộ
 
 ```

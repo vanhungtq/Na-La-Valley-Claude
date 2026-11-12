@@ -11,9 +11,8 @@ Mọi agent đọc thư viện này trước khi làm việc. Thứ tự ưu ti�
 | `04-khan-gia-quoc-te-youtube.md` | Tiêu đề, thumbnail, giữ chân, phụ đề cho khán giả nước ngoài | Claude (khởi điểm) |
 | `05-rubric-kich-ban.md` | Thang chấm kịch bản 10 tiêu chí | Claude |
 | `06-rubric-storyboard.md` | Chuẩn storyboard, cách nhận xét ảnh thực tế | Claude |
-| **`inbox/`** | **Nơi bạn thả kiến thức và video mẫu** — xem `inbox/README.md` | Chủ dự án |
-| `video-mau/` | Video mẫu đã phân tích: timeline, từng cú máy kèm ảnh | Thủ thư, từ inbox |
-| `kien-thuc/` | Tài liệu bạn tải lên, đã chuẩn hóa | Thủ thư, từ inbox |
+| `video-mau/` | Clip mẫu chủ dự án tải lên **Thư viện trong app** (khung hình, ghi chú), tải về phiên để phân tích; không commit | Thủ thư |
+| `kien-thuc/` | Tài liệu chủ dự án tải lên app; không commit | Thủ thư |
 | `chu-de/` | Nghiên cứu có nguồn do Thủ thư tra cứu (mùa vụ, món ăn, kỹ thuật thủ công) | Thủ thư |
 | `ky-thuat/` | Thẻ kỹ thuật chưng cất từ thư viện, có bằng chứng | `/hoc-tu-thu-vien`, bạn duyệt |
 | `so-tay/` | Sổ tay riêng của từng agent, đọc trước mỗi lần làm việc | `/hoc-tu-thu-vien` |
@@ -22,10 +21,9 @@ Mọi agent đọc thư viện này trước khi làm việc. Thứ tự ưu ti�
 ## Vòng học
 
 ```
-bạn thả vào inbox/  →  /nap-thu-vien  →  video-mau/ + kien-thuc/
-                    →  /hoc-tu-thu-vien  →  ky-thuat/KT-xxx (bạn duyệt)  →  so-tay/<agent>.md
-                    →  agent đọc sổ tay trước khi viết  →  shot ghi "technique": ["KT-xxx"]
-                    →  sau khi quay: ghi bài học thực địa vào sổ tay
+bạn thêm clip + ghi chú vào Thư viện trong app  →  "Phân tích mục mới"  →  phân tích hiện trong app
+   →  "Rút kỹ thuật & nâng cấp agents"  →  thẻ KT-xxx đề xuất hiện trong app  →  bạn bấm Duyệt / Bỏ
+   →  thẻ đã duyệt ghi vào so-tay/<agent>.md  →  agent đọc sổ tay trước khi viết  →  shot ghi "technique": ["KT-xxx"]
 ```
 
 ## Ba loại dữ kiện — luôn ghi nhãn
@@ -34,8 +32,8 @@ bạn thả vào inbox/  →  /nap-thu-vien  →  video-mau/ + kien-thuc/
 - **[CHỦ DỰ ÁN]** — chủ dự án nói trong brief hoặc trong phiên.
 - **[GIẢ ĐỊNH]** — suy đoán sáng tạo, cần xác nhận trước khi quay.
 
-Tên file hoặc URL không chứng minh nội dung. Claude không xem được video: nhưng xem được ảnh từng cú máy bạn thả vào `inbox/`. Muốn có timeline tự động thì nhờ Gemini xem video (xem `/nap-thu-vien`).
+Tên file hoặc URL không chứng minh nội dung. Claude không xem được video: nhưng xem được chuỗi khung hình app trích từ clip bạn tải lên.
 
 ## Thêm kiến thức mới
 
-Thả vào `inbox/` rồi gọi `/nap-thu-vien`. Bài học sau mỗi tập quay xong được ghi vào `so-tay/`.
+Thêm trong tab Thư viện của app. Bài học sau mỗi tập quay xong được ghi vào `so-tay/`.

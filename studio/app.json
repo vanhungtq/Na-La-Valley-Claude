@@ -1,0 +1,6 @@
+{
+ "url": "https://claude.ai/artifact/7WeknhdrjPium3HMoESGTM",
+ "page": "studio/app.html",
+ "capabilities": {"db": {}, "user": {}, "assets": {}},
+ "ghi_chu": "App Nà Lạ Studio. Dữ liệu (tập, ảnh, thư viện, hàng việc) nằm trong cơ sở dữ liệu và kho tệp của artifact này, không nằm trong repo. Sửa giao diện: sửa studio/app.html rồi đăng lại bằng công cụ Artifact với url ở trên."
+}

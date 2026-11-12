@@ -1,57 +1,42 @@
-# Nà Lạ Valley · Xưởng tiền kỳ bằng Claude
+# Nà Lạ Valley · Xưởng tiền kỳ
 
-Bạn đưa **ý tưởng thô và ảnh thật**; hệ thống agent viết **kịch bản, storyboard, hướng dẫn quay** trong một file báo cáo HTML. Bạn chụp ảnh thực tế từng shot, hệ thống nhận xét và cập nhật báo cáo, lặp đến bản Final. Chạy bằng Claude Code với gói thuê bao Claude. **Không dùng API tính phí**; ảnh storyboard do bạn tự tạo từ gói prompt hệ thống chuẩn bị.
+Hai phần:
 
-Lý do thiết kế: [`docs/PHUONG_AN.md`](docs/PHUONG_AN.md).
+- **App Nà Lạ Studio** — giao diện bạn dùng hằng ngày, chạy trên claude.ai: https://claude.ai/artifact/7WeknhdrjPium3HMoESGTM (riêng tư, chỉ tài khoản của bạn mở được). Dữ liệu, ảnh và clip nằm trong app.
+- **Repo này** — code: mã nguồn app, 7 agent, các lệnh, script, kiến thức nền. Agents chạy trong Claude Code mở trên repo này.
 
-## Một tập đi như thế nào
+Không dùng API tính phí. Ảnh storyboard do bạn tự tạo từ prompt app chuẩn bị.
 
-| Bước | Bạn làm | Gõ lệnh | Hệ thống trả |
-|---|---|---|---|
-| 1 | Viết vài dòng vào `episodes/epNN/input/y-tuong.md`, thả ảnh vào `input/boi-canh/`, `input/dao-cu/`, `input/nhan-vat/` | `/tap-moi NN` | 3 concept để chọn → kịch bản → shot list → **`bao-cao.html` bản v1** + `goi-prompt.html` |
-| 2 (tùy chọn) | Mở `goi-prompt.html`, dán từng prompt kèm ảnh tham chiếu vào ChatGPT/Gemini, lưu ảnh vào `storyboard/<ID shot>.png` | `/cap-nhat NN` | Hình dự kiến hiện trên báo cáo |
-| 3 | Ra hiện trường, chụp từng shot theo hướng dẫn, lưu `input/thuc-te/<ID shot>.jpg` — có bao nhiêu gửi bấy nhiêu | `/cap-nhat NN` | Nhận xét từng ảnh (đạt / cần chỉnh / quay lại, kèm lệnh sửa đo được), kế hoạch chỉnh theo thực tế, **báo cáo bản mới** |
-| 4 | Lặp bước 3 | `/cap-nhat NN final` | Bản FINAL một file, nhúng ảnh |
+## Cách dùng
 
-## Lệnh
+| Bạn làm trong app | Rồi | Agents trả về trong app |
+|---|---|---|
+| Tab **Đầu vào**: viết ý tưởng thô, tải ảnh bối cảnh / đạo cụ / nhân vật, bấm *Viết kịch bản & storyboard* | Gõ `/studio` trong Claude Code | 3 concept để chọn → kịch bản → storyboard từng shot kèm hướng dẫn quay → prompt tạo ảnh |
+| Trả lời câu hỏi agents đặt ra (ô màu vàng đầu trang) | `/studio` | Bước tiếp theo |
+| Tab **Tạo ảnh** (tùy chọn): sao chép prompt + ảnh tham chiếu sang ChatGPT/Gemini, gắn ảnh kết quả vào shot | — | Hình dự kiến hiện cạnh ảnh thực tế |
+| Tab **Storyboard**: tải ảnh thực tế từng shot (không cần đủ), bấm *Nhận xét ảnh mới & cập nhật* | `/studio` | Mỗi ảnh: đạt / cần chỉnh / quay lại kèm lệnh sửa; kế hoạch chỉnh theo thực tế; bản mới |
+| Bấm *Chốt bản Final* | `/studio` | Bản Final |
+| **Thư viện**: thêm clip ngắn của video mẫu (app tự trích khung hình) kèm ghi chú; bấm *Phân tích mục mới*, sau đó *Rút kỹ thuật & nâng cấp agents*; duyệt từng thẻ kỹ thuật | `/studio` | Phân tích từng cú máy; thẻ kỹ thuật; sổ tay agents được cập nhật |
+| **Agents**: xem hàng việc, bước của từng tập, agent nào đang làm gì, nhật ký | — | Cập nhật trực tiếp khi agents chạy |
 
-| Lệnh | Việc |
-|---|---|
-| `/tap-moi <số> [ý tưởng]` | Ý tưởng + ảnh → kịch bản, shot list, storyboard, báo cáo v1 (có 3 cổng duyệt) |
-| `/cap-nhat <số> [final]` | Nhận ảnh mới, nhận xét, cập nhật báo cáo; chốt Final |
-| `/storyboard <số>` | Làm lại visual bible / mô tả khung hình / gói prompt |
-| `/bao-cao <số> [nhung]` | Dựng lại báo cáo, không chạy agent |
-| `/duyet-tap <số>` | Rà soát độc lập, chấm theo thang điểm |
-| `/goi-youtube <số>` | Tiêu đề EN, thumbnail, mô tả, chapters, phụ đề, Micro Cut |
-| `/nap-thu-vien` | Nhập video mẫu và tài liệu bạn thả vào `knowledge/inbox/` |
-| `/hoc-tu-thu-vien` | Chưng cất thư viện thành thẻ kỹ thuật, nâng cấp sổ tay các agent |
-| `/tien-trinh` | Mở dashboard: agent nào đang làm gì |
+Việc trong hàng chỉ chạy khi có một phiên Claude Code đang mở và bạn gõ `/studio`. App không tự khởi động agents.
 
-## Thư viện kiến thức
+## Giới hạn
 
-Thả vào `knowledge/inbox/` (hướng dẫn: [`knowledge/inbox/README.md`](knowledge/inbox/README.md)): video mẫu của kênh khác gồm văn bản nội dung, timeline, **ảnh chụp màn hình từng cú máy**; hoặc tài liệu bất kỳ. `/nap-thu-vien` xem từng ảnh và lập hồ sơ; `/hoc-tu-thu-vien` rút thành thẻ kỹ thuật có bằng chứng, bạn duyệt, rồi ghi vào sổ tay của từng agent để lần viết sau áp dụng.
-
-## Dashboard
-
-```bash
-python3 -m http.server 8765
-```
-
-Mở `http://localhost:8765/dashboard.html` (tự làm mới 5 giây): các bước của tập, trạng thái từng agent, nhật ký, tiến độ ảnh thực tế, số liệu thư viện.
-
-## Kiểm tra thủ công
-
-```bash
-python3 scripts/validate_episode.py episodes/ep01 --draft
-```
-
-```bash
-python3 scripts/build_report.py episodes/ep01 --embed
-```
+- Agents xem ảnh và chuỗi khung hình của clip; không xem video chạy, không nghe âm thanh.
+- Mỗi tệp tải lên tối đa 20 MB; ảnh được tự thu nhỏ còn cạnh dài 1920 px.
+- Ảnh AI không giống hệt người thật; một số dịch vụ từ chối dựng người thật từ ảnh tham chiếu.
 
 ## Tình trạng
 
-- **Đã chạy thử** với ảnh giả lập: đồng bộ ảnh, kiểm tra, gói prompt, báo cáo (máy tính và điện thoại), dashboard.
-- **Chưa chạy thử:** các agent và lệnh `/tap-moi`, `/cap-nhat`, `/nap-thu-vien`, `/hoc-tu-thu-vien` trên dữ liệu thật — chất lượng kịch bản chưa được chứng minh cho đến khi chạy tập đầu. `scripts/codex_imagegen.sh` (tùy chọn) chưa chạy với Codex thật.
-- Tập 1 hiện là bản hạt giống 10 shot chép từ Bible, đã viết đủ trường storyboard để làm mẫu; chưa có ảnh thật nào.
-- Thư viện chưa có video mẫu nào. Hai file nguyên tắc (`01`, `04`) là tổng hợp ban đầu của Claude, chưa đối chiếu video thật.
+- **Đã kiểm tra:** app chạy với dữ liệu giả lập trên máy tính và điện thoại, sáng và tối; ghi và đọc cơ sở dữ liệu thật của app; đường đồng bộ app → thư mục làm việc → app (Tập 1 mẫu đi một vòng không sai lệch).
+- **Chưa kiểm tra:** tải ảnh/clip và trích khung hình trong app thật (chỉ bạn đăng nhập mới thử được); tải tệp từ kho của app về phiên; toàn bộ quy trình agents trên một tập thật. Tập đầu là phép thử.
+- Tập 1 trong app là bản hạt giống 10 shot chép từ Bible.
+
+## Cho người sửa code
+
+```bash
+python3 scripts/validate_episode.py episodes/_template --draft
+```
+
+Sửa giao diện: `studio/app.html`, đăng lại qua công cụ Artifact của Claude với `url` trong `studio/app.json`. Lý do thiết kế: [`docs/PHUONG_AN.md`](docs/PHUONG_AN.md).

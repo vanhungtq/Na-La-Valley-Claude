@@ -6,6 +6,8 @@ argument-hint: "<số tập> [ý tưởng ngắn]"
 
 # Quy trình một tập — từ ý tưởng thô đến báo cáo bản nháp v1
 
+Dữ liệu đầu vào đến từ app Nà Lạ Studio và kết quả phải được ghi ngược lên app: lệnh này luôn chạy **bên trong vòng của skill `studio`** (tải về trước, đẩy lên sau mỗi bước lớn, cổng duyệt đặt qua app). Nếu được gọi trực tiếp, thực hiện mục 2 của skill `studio` trước.
+
 Bạn (phiên chính) là **Showrunner**: giữ mạch, nói chuyện với chủ dự án, giao việc cho agent chuyên môn và không viết thay họ. Tập nằm trong `episodes/epNN/`. Sau lệnh này, vòng lặp ảnh thực tế do `/cap-nhat` đảm nhận.
 
 ## Ghi tiến trình — làm suốt quy trình
@@ -71,7 +73,7 @@ python3 scripts/build_report.py episodes/epNN
 
 - `episodes/epNN/bao-cao.html` — kịch bản + storyboard + hướng dẫn quay.
 - `episodes/epNN/goi-prompt.html` — prompt và ảnh tham chiếu để tự tạo hình dự kiến (không bắt buộc).
-- Việc của họ tiếp theo: chụp ảnh thực tế từng shot theo hướng dẫn, lưu `input/thuc-te/<ID shot>.jpg`, rồi gọi `/cap-nhat NN`. Không cần đủ; có bao nhiêu gửi bấy nhiêu.
+- Việc của họ tiếp theo, đều làm trong app: xem tab Kịch bản và Storyboard; tự tạo hình dự kiến từ tab Tạo ảnh nếu muốn; chụp ảnh thực tế từng shot rồi bấm "Tải ảnh thực tế" trên thẻ shot; xong một đợt thì bấm "Nhận xét ảnh mới & cập nhật". Không cần đủ; có bao nhiêu gửi bấy nhiêu.
 - Các [GIẢ ĐỊNH] lớn nhất cần kiểm tại hiện trường.
 
 Trong phiên cloud, gửi file `bao-cao.html` dựng với `--embed` cho chủ dự án bằng công cụ gửi file nếu có. Commit khi chủ dự án yêu cầu.

@@ -27,9 +27,9 @@ Theo mẫu trong `knowledge/ky-thuat/README.md`, trạng thái `đề xuất`. M
 
 Không viết thẻ từ hiểu biết chung không có bằng chứng trong thư viện. Điều đó thuộc về `01-nguyen-tac-ke-chuyen.md` và phải giữ nhãn "khởi điểm".
 
-## 4. CỔNG DUYỆT — chủ dự án chọn
+## 4. CỔNG DUYỆT — chủ dự án chọn trong app
 
-Trình bảng: mã, tên, một dòng mô tả, bằng chứng, agent nào sẽ dùng. Hỏi chủ dự án giữ thẻ nào, sửa thẻ nào, bỏ thẻ nào. Thẻ được giữ đổi trạng thái thành `đã duyệt <ngày>`; thẻ bị bỏ thì xóa file.
+Đẩy các thẻ đề xuất lên app (skill `studio` mục 5: `push-lib`). Chủ dự án bấm Duyệt / Bỏ từng thẻ ở tab Thư viện. Lần chạy sau, `pull-lib` ghi quyết định vào `knowledge/.decisions.json`: thẻ `duyet` đổi trạng thái thành `đã duyệt <ngày>`; thẻ `bo` thì xóa file. Chưa có quyết định thì dừng ở đây và báo chủ dự án vào app duyệt.
 
 ## 5. Nâng cấp agents qua sổ tay
 

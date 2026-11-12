@@ -2,3 +2,9 @@
 __pycache__/
 *.tmp
 .env
+# Dữ liệu làm việc: nguồn sự thật là app Nà Lạ Studio, không lưu trong repo
+episodes/ep*/
+dashboard.html
+knowledge/.decisions.json
+knowledge/video-mau/*__*/
+knowledge/kien-thuc/

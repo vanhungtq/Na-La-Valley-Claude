@@ -1,0 +1,386 @@
+<title>Nà Lạ Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Bố cục: thanh trên cố định (3 khu) → danh sách tập bên trái, không gian làm việc theo tab bên phải; điện thoại xếp một cột. */
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --sunk:#e3e8ee; --ink:#1b2430; --mute:#5d6b7a; --line:#cfd7e0;
+  --cham:#27406b; --cham-ink:#ffffff; --reu:#3f6b4c; --ho-phach:#a86a12; --do:#a33a32; --xam:#6f7d8c; --nhat:#b7c4d6;
+  --soft-cham:#e4ebf6; --soft-reu:#e3efe5; --soft-ho:#f8ecd6; --soft-do:#f6e2df;
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --panel:#1b222b; --sunk:#232c37; --ink:#e6ebf1; --mute:#9aa7b5; --line:#34404d;
+  --cham:#7fa3e0; --cham-ink:#0f1722; --reu:#7fbf8f; --ho-phach:#e0aa55; --do:#e58379; --xam:#8a97a6; --nhat:#46566b;
+  --soft-cham:#22304a; --soft-reu:#1f3326; --soft-ho:#3a2f1a; --soft-do:#3c2321; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12171d; --panel:#1b222b; --sunk:#232c37; --ink:#e6ebf1; --mute:#9aa7b5; --line:#34404d;
+  --cham:#7fa3e0; --cham-ink:#0f1722; --reu:#7fbf8f; --ho-phach:#e0aa55; --do:#e58379; --xam:#8a97a6; --nhat:#46566b;
+  --soft-cham:#22304a; --soft-reu:#1f3326; --soft-ho:#3a2f1a; --soft-do:#3c2321; color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 var(--font)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cham);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--panel);border-bottom:1px solid var(--line)}
+.top .in,.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top .in{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap;padding-block:8px}
+.brand{font-weight:700;font-size:16px;letter-spacing:-.01em}.brand small{font-weight:500;color:var(--mute);margin-left:6px}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{padding:6px 12px;border-radius:8px;text-decoration:none;color:var(--mute);font-weight:600}
+.nav a.on{background:var(--soft-cham);color:var(--cham)}
+.queue{margin-left:auto;font-size:13px;color:var(--mute)}
+.wrap{padding-block:16px 60px}
+.note{background:var(--soft-ho);border:1px solid var(--line);border-left:4px solid var(--ho-phach);border-radius:8px;padding:10px 14px;margin:0 0 14px}
+.note.err{background:var(--soft-do);border-left-color:var(--do)}.note.ok{background:var(--soft-reu);border-left-color:var(--reu)}
+.cols{display:grid;grid-template-columns:240px minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}
+.side h2,.sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:4px 6px 8px;font-weight:600}
+.eplist{display:flex;flex-direction:column;gap:4px}
+.eplist button{all:unset;display:block;padding:8px 10px;border-radius:8px;cursor:pointer}
+.eplist button.on{background:var(--soft-cham)}.eplist b{display:block}.eplist span{font-size:12px;color:var(--mute)}
+.btn{border:1px solid var(--cham);background:var(--cham);color:var(--cham-ink);border-radius:8px;padding:7px 14px;font-weight:600;cursor:pointer}
+.btn.alt{background:transparent;color:var(--cham)}.btn.sm{padding:4px 10px;font-size:12.5px}.btn.red{border-color:var(--do);color:var(--do);background:transparent}
+.btn[disabled]{opacity:.5;cursor:default}
+.main{min-width:0}
+.head{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.head h1{margin:0 0 2px;font-size:21px;line-height:1.25;text-wrap:balance}.head p{margin:0;color:var(--mute);max-width:75ch}
+.pill{display:inline-block;border-radius:99px;padding:1px 10px;font-size:12px;font-weight:600;background:var(--soft-ho);color:var(--ho-phach);vertical-align:middle;margin-left:6px}
+.pill.final{background:var(--soft-reu);color:var(--reu)}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}.stats b{color:var(--ink)}
+.prog{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--sunk);margin-top:8px}
+.prog span{display:block}.p-dat{background:var(--reu)}.p-chinh{background:var(--ho-phach)}.p-quay-lai{background:var(--do)}.p-cho{background:var(--xam)}.p-ai{background:var(--nhat)}
+.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs button{all:unset;padding:9px 13px;cursor:pointer;font-weight:600;color:var(--mute);white-space:nowrap;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--cham);border-bottom-color:var(--cham)}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;min-width:0}
+.sec h3{margin:0 0 10px}
+label.f{display:block;font-size:12.5px;color:var(--mute);font-weight:600;margin:10px 0 4px}
+input[type=text],input[type=number],textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:120px;resize:vertical;line-height:1.5}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{min-width:0}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+.thumb{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--sunk)}
+.thumb img,.thumb video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.thumb .cap{padding:4px 6px;font-size:11.5px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.thumb .x{position:absolute;right:4px;top:4px;border:0;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;width:24px;height:24px;cursor:pointer}
+.drop{border:1.5px dashed var(--line);border-radius:10px;padding:12px;text-align:center;color:var(--mute);background:var(--bg)}
+.prose{overflow-x:auto}.prose p,.prose li{max-width:78ch}.prose h3,.prose h4,.prose h5{margin:16px 0 4px;text-transform:none;letter-spacing:0;color:var(--ink);font-size:16px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{background:var(--sunk)}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font:12.5px/1.5 var(--mono);margin:0 0 8px;max-height:280px;overflow:auto}
+code{font-family:var(--mono);font-size:.92em;background:var(--sunk);padding:1px 5px;border-radius:4px}
+blockquote{margin:8px 0;padding:6px 12px;border-left:4px solid var(--ho-phach);background:var(--soft-ho)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.filters button{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:4px 12px;font-size:13px;cursor:pointer}
+.filters button.on{background:var(--cham);color:var(--cham-ink);border-color:var(--cham)}
+.scene{margin:18px 0 8px}.scene h4{margin:0;font-size:16px}.scene .m{color:var(--mute);font-size:13px}
+.sound{background:var(--soft-ho);border-radius:8px;padding:6px 10px;font-size:13px;margin:6px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+@media (max-width:420px){.grid{grid-template-columns:minmax(0,1fr)}}
+.shot{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.shot.key{border-color:var(--cham)}
+.frames{display:grid;grid-template-columns:1fr;gap:2px;background:#11151a}.frames.two{grid-template-columns:1fr 1fr}
+.frame{position:relative;aspect-ratio:16/9;max-width:100%;background:#232a33;color:#93a0ae;display:flex;align-items:center;justify-content:center;font-size:12px;text-align:center;padding:6px}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame .lab{position:absolute;left:5px;top:5px;z-index:1;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:.06em;padding:2px 6px;border-radius:4px}
+.sb{padding:9px 12px 11px;display:flex;flex-direction:column;gap:6px}
+.r1{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.sid{font-weight:700;font-family:var(--mono);font-size:13.5px}
+.badge{font-size:11px;font-weight:600;border-radius:99px;padding:1px 8px;background:var(--sunk);color:var(--mute)}
+.b-dat{background:var(--soft-reu);color:var(--reu)}.b-chinh{background:var(--soft-ho);color:var(--ho-phach)}.b-quay-lai{background:var(--soft-do);color:var(--do)}.b-cho{background:var(--sunk);color:var(--ink)}.b-ai{background:var(--soft-cham);color:var(--cham)}
+.sec-n{margin-left:auto;color:var(--mute);font-size:12.5px;font-variant-numeric:tabular-nums}
+.spec{font-size:12px;color:var(--mute);font-family:var(--mono)}
+.link{font-size:13px;color:var(--mute);font-style:italic}
+.guide{background:var(--soft-cham);border-radius:7px;padding:6px 9px;font-size:13.5px}
+.fb{border-radius:7px;padding:6px 9px;font-size:13.5px;border-left:4px solid var(--xam);background:var(--sunk)}
+.fb.dat{border-color:var(--reu);background:var(--soft-reu)}.fb.chinh{border-color:var(--ho-phach);background:var(--soft-ho)}.fb.quay-lai{border-color:var(--do);background:var(--soft-do)}
+dl{margin:0;font-size:13px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}dt{color:var(--mute)}dd{margin:0}
+.up{display:flex;gap:6px;flex-wrap:wrap}
+.bar{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;min-width:2px;overflow:hidden;border-right:1px solid rgba(255,255,255,.3)}
+.pipe{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
+.st{flex:1 0 104px;border-radius:8px;padding:7px 9px;background:var(--sunk);color:var(--mute);font-size:12.5px;line-height:1.3}
+.st b{display:block;font-size:11px;font-weight:600;opacity:.8}
+.st.working{background:var(--cham);color:var(--cham-ink)}.st.review{background:var(--ho-phach);color:#fff}.st.done{background:var(--reu);color:#fff}
+.agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.ag{border:1px solid var(--line);border-left:4px solid var(--nhat);border-radius:8px;padding:8px 10px;background:var(--bg)}
+.ag.working{border-left-color:var(--cham);background:var(--soft-cham)}.ag.done{border-left-color:var(--reu)}.ag.blocked{border-left-color:var(--do);background:var(--soft-do)}
+.ag b{display:block}.ag span{font-size:12px;color:var(--mute)}.ag p{margin:3px 0 0;font-size:13px;min-height:1.3em}
+.log td{border:0;border-top:1px solid var(--line)}.log td:first-child{white-space:nowrap;color:var(--mute);font-family:var(--mono);font-size:12px}
+.card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:var(--bg)}
+.card h4{margin:0 0 4px;font-size:15px}
+.empty{color:var(--mute)}
+.cmd{display:inline-flex;gap:8px;align-items:center;background:var(--sunk);border-radius:8px;padding:4px 6px 4px 10px;font-family:var(--mono);font-size:13px}
+@media (prefers-reduced-motion:no-preference){.st.working{animation:pulse 1.6s infinite}@keyframes pulse{50%{opacity:.72}}}
+</style>
+
+<div class="top"><div class="in">
+  <div class="brand">Nà Lạ Studio<small>xưởng tiền kỳ</small></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="queue" id="queue"></div>
+</div></div>
+<div class="wrap"><div id="msg"></div><div id="app"><p class="empty">Đang mở dữ liệu của xưởng…</p></div></div>
+
+<script>
+"use strict";
+const STAGES=[["y-tuong","Ý tưởng & ảnh đầu vào"],["dinh-huong","Định hướng"],["concept","Concept"],["kich-ban","Kịch bản"],["shot-list","Shot list"],["am-thanh","Âm thanh"],["storyboard","Storyboard & prompt"],["thuc-te","Ảnh thực tế"],["final","Bản Final"]];
+const S_ST={todo:"Chưa làm",working:"Đang làm",review:"Chờ duyệt",done:"Xong"};
+const AGENTS={showrunner:"Showrunner","thu-thu":"Thủ thư","bien-kich":"Biên kịch","quay-phim":"Quay phim","am-thanh":"Âm thanh","hoa-si-storyboard":"Họa sĩ storyboard","giam-sat":"Giám sát","chien-luoc-youtube":"Chiến lược YouTube"};
+const A_ST={working:"Đang làm",done:"Xong",blocked:"Bị chặn",idle:"Chờ việc"};
+const ST_LABEL={dat:"Đạt",chinh:"Cần chỉnh","quay-lai":"Quay lại",cho:"Chờ nhận xét",ai:"Có hình dự kiến",trong:"Chưa có hình"};
+const KINDS=[["boi-canh","Bối cảnh","Nơi sẽ quay: toàn cảnh, hướng nắng, chỗ đặt máy"],["dao-cu","Đạo cụ","Dụng cụ, vật liệu, nồi niêu, nguyên liệu"],["nhan-vat","Nhân vật","Người và trang phục hôm quay, con mèo"]];
+const JOBS={"tap-moi":"Viết kịch bản & storyboard","cap-nhat":"Nhận xét ảnh mới & cập nhật","storyboard":"Làm lại storyboard / prompt","tra-loi":"Tiếp tục với câu trả lời của tôi","final":"Chốt bản Final","nap-thu-vien":"Phân tích mục thư viện mới","hoc-tu-thu-vien":"Rút kỹ thuật & nâng cấp agents","khac":"Yêu cầu khác"};
+const DOCS=[["dinh-huong","Định hướng"],["concept","Concept"],["kich-ban","Kịch bản"],["cau-hoi","Câu hỏi cho bạn"],["review","Rà soát của Giám sát"],["youtube","Gói YouTube"]];
+const BEAT=["#27406b","#3f6b4c","#a3562f","#96792a","#6d4a6b","#35706f","#7d5536","#4f5d75"];
+const TABS=[["dau-vao","Đầu vào"],["kich-ban","Kịch bản"],["storyboard","Storyboard"],["tao-anh","Tạo ảnh"],["huong-dan","Hướng dẫn quay"],["tien-trinh","Tiến trình"]];
+
+const S={db:null,assets:null,ready:false,view:"tap",ep:null,tab:"dau-vao",filter:"all",briefs:[],eps:{},scenes:[],docs:{},media:{},inputs:[],lib:[],analysis:{},cards:[],decisions:{},playbooks:[],jobs:[],busy:"",flash:null,stale:false,dirty:new Set()};
+let epUnsubs=[];
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const blob=id=>id?"/_blob/"+encodeURIComponent(id):"";
+const now=()=>new Date().toISOString();
+const when=t=>{if(!t)return"";const d=new Date(t);return isNaN(d)?esc(t):d.toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})};
+function flash(text,kind){S.flash={text,kind:kind||"ok"};renderMsg();if(kind!=="err")setTimeout(()=>{if(S.flash&&S.flash.text===text){S.flash=null;renderMsg()}},6000)}
+function fail(e,what){console.error(e);const c=e&&e.code?e.code:"";flash((what||"Không thực hiện được")+(c==="quota_exceeded"||c==="quota_or_state"?": kho lưu trữ đã đầy, hãy xóa bớt ảnh/clip cũ.":c==="too_large"?": tệp vượt 20 MB, hãy cắt ngắn hoặc nén lại.":c==="unsupported_type"?": loại tệp này không được hỗ trợ (dùng JPG, PNG, WebP, MP4, WebM).":c==="permission_denied"||c==="not_granted"?": bạn không có quyền ghi vào xưởng này.":". Thử lại sau ít phút."),"err")}
+
+/* ---------- Markdown tối giản (đã thoát HTML trước khi định dạng) ---------- */
+function inl(t){t=esc(t);t=t.replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(^|[^*\w])\*([^*]+)\*(?!\w)/g,"$1<i>$2</i>");return t.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')}
+function md(src){const L=String(src||"").split("\n"),o=[];let i=0;const isList=s=>/^\s*([-*]|\d+\.) /.test(s);
+  while(i<L.length){const ln=L[i].replace(/\s+$/,"");
+    if(!ln.trim()){i++}
+    else if(ln.startsWith("```")){let j=i+1;while(j<L.length&&!L[j].startsWith("```"))j++;o.push("<pre>"+esc(L.slice(i+1,j).join("\n"))+"</pre>");i=j+1}
+    else if(/^#{1,5} /.test(ln)){const n=ln.match(/^#+/)[0].length;const h=Math.min(n+2,5);o.push(`<h${h}>${inl(ln.slice(n).trim())}</h${h}>`);i++}
+    else if(ln.trim().startsWith("|")){const rows=[];while(i<L.length&&L[i].trim().startsWith("|")){rows.push(L[i].trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim()));i++}
+      const body=rows.filter(r=>!r.every(c=>/^:?-{2,}:?$/.test(c)));if(body.length)o.push("<table><tr>"+body[0].map(c=>`<th>${inl(c)}</th>`).join("")+"</tr>"+body.slice(1).map(r=>"<tr>"+r.map(c=>`<td>${inl(c)}</td>`).join("")+"</tr>").join("")+"</table>")}
+    else if(isList(ln)){const tag=/^\s*\d+\./.test(ln)?"ol":"ul",it=[];while(i<L.length&&isList(L[i])){it.push(inl(L[i].replace(/^\s*([-*]|\d+\.) /,"")));i++}o.push(`<${tag}>`+it.map(x=>`<li>${x}</li>`).join("")+`</${tag}>`)}
+    else if(ln.startsWith(">")){o.push("<blockquote>"+inl(ln.replace(/^>\s?/,""))+"</blockquote>");i++}
+    else{const p=[];while(i<L.length&&L[i].trim()&&!/^(#{1,5} |>|```)/.test(L[i])&&!isList(L[i])&&!L[i].trim().startsWith("|")){p.push(L[i].trim());i++}o.push("<p>"+inl(p.join(" "))+"</p>")}}
+  return o.join("")}
+
+/* ---------- Dữ liệu ---------- */
+function sub(q,fn){return q.onSnapshot(s=>{S.stale=!!(s.metadata&&s.metadata.fromCache);fn(s);S.ready=true;paint()},e=>{console.error(e);S.ready=true;flash("Mất kết nối tới dữ liệu của xưởng ("+esc(e.code||"")+"). Tải lại trang sau ít phút.","err");paint()})}
+const rows=s=>s.docs.map(d=>({id:d.id,...d.data()}));
+const byId=s=>Object.fromEntries(s.docs.map(d=>[d.id,d.data()]));
+async function boot(){
+  let db=null,assets=null;
+  try{db=await window.claude.use("db");assets=await window.claude.use("assets")}catch(e){console.error(e)}
+  S.db=db;S.assets=assets;
+  if(!db){S.ready=true;$("app").innerHTML='<div class="note err">Không mở được dữ liệu của xưởng. Hãy mở trang này trong claude.ai khi đã đăng nhập bằng tài khoản chủ xưởng.</div>';return}
+  setTimeout(()=>{if(!S.ready){$("app").innerHTML='<div class="note">Chưa kết nối được dữ liệu sau 10 giây. Trang sẽ tự hiện khi có kết nối.</div>'}},10000);
+  sub(db.collection("briefs"),s=>{S.briefs=rows(s).sort((a,b)=>a.id.localeCompare(b.id));if(!S.ep&&S.briefs.length)pickEp(S.briefs[S.briefs.length-1].id)});
+  sub(db.collection("episodes"),s=>{S.eps=byId(s)});
+  sub(db.collection("jobs"),s=>{S.jobs=rows(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)))});
+  sub(db.collection("library"),s=>{S.lib=rows(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)))});
+  sub(db.collection("analysis"),s=>{S.analysis=byId(s)});
+  sub(db.collection("cards"),s=>{S.cards=rows(s).sort((a,b)=>a.id.localeCompare(b.id))});
+  sub(db.collection("decisions"),s=>{S.decisions=byId(s)});
+  sub(db.collection("playbooks"),s=>{S.playbooks=rows(s)});
+}
+function pickEp(id){epUnsubs.forEach(u=>{try{u()}catch(e){}});epUnsubs=[];S.ep=id;S.scenes=[];S.docs={};S.media={};S.inputs=[];
+  const b="episodes/"+id+"/";
+  epUnsubs.push(sub(S.db.collection(b+"scenes"),s=>{S.scenes=rows(s).sort((a,b)=>(a.order??0)-(b.order??0)||a.id.localeCompare(b.id))}));
+  epUnsubs.push(sub(S.db.collection(b+"docs"),s=>{S.docs=byId(s)}));
+  epUnsubs.push(sub(S.db.collection(b+"media"),s=>{S.media=byId(s)}));
+  epUnsubs.push(sub(S.db.collection(b+"inputs"),s=>{S.inputs=rows(s).sort((a,b)=>String(a.at).localeCompare(String(b.at)))}));
+}
+const allShots=()=>S.scenes.flatMap(sc=>(sc.shots||[]).map(sh=>({sc,sh})));
+function state(sh){const m=S.media[sh.id]||{};if(m.real){if(sh.real_asset===m.real&&ST_LABEL[sh.verdict])return sh.verdict;return"cho"}return m.plan?"ai":"trong"}
+function cov(){const c={total:0,trong:0,ai:0,cho:0,dat:0,chinh:0,"quay-lai":0};for(const {sh} of allShots()){c.total++;c[state(sh)]++}c.real=c.cho+c.dat+c.chinh+c["quay-lai"];return c}
+
+/* ---------- Tải tệp ---------- */
+function shrink(file,max){return new Promise(res=>{if(!/^image\/(jpeg|png|webp)$/.test(file.type)){res(file);return}
+  const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const k=Math.min(1,max/Math.max(img.width,img.height));if(k===1&&file.size<1500000){URL.revokeObjectURL(u);res(file);return}
+    const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>res(b||file),"image/jpeg",.86)};
+  img.onerror=()=>{URL.revokeObjectURL(u);res(file)};img.src=u})}
+async function put(file){if(!S.assets)throw{code:"not_granted"};const b=await shrink(file,1920);const r=await S.assets.upload(b,{type:b.type||file.type});return r.id}
+function grabFrames(file,maxN){return new Promise(res=>{const v=document.createElement("video"),u=URL.createObjectURL(file),out=[];v.muted=true;v.playsInline=true;v.preload="auto";
+  const done=()=>{URL.revokeObjectURL(u);res(out)};const kill=setTimeout(done,45000);
+  v.onerror=()=>{clearTimeout(kill);done()};
+  v.onloadedmetadata=()=>{const d=v.duration;if(!isFinite(d)||d<=0){clearTimeout(kill);done();return}
+    const n=Math.max(2,Math.min(maxN,Math.round(d/1.5)));const ts=[...Array(n)].map((_,i)=>+(d*(i+.5)/n).toFixed(2));let k=0;
+    const c=document.createElement("canvas");
+    v.onseeked=()=>{const s=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight));c.width=Math.round(v.videoWidth*s);c.height=Math.round(v.videoHeight*s);c.getContext("2d").drawImage(v,0,0,c.width,c.height);
+      c.toBlob(b=>{if(b)out.push({blob:b,t:ts[k]});k++;if(k<ts.length)v.currentTime=ts[k];else{clearTimeout(kill);done()}},"image/jpeg",.85)};
+    v.currentTime=ts[0]};
+  v.src=u})}
+async function busy(label,fn){S.busy=label;paint();try{await fn()}catch(e){fail(e,label)}finally{S.busy="";paint()}}
+
+/* ---------- Hành động ---------- */
+const ACT={
+  go(el){location.hash=el.dataset.v},
+  ep(el){pickEp(el.dataset.id);S.tab="dau-vao";S.view="tap";if(location.hash!=="#tap")location.hash="tap";paint(true)},
+  tab(el){S.tab=el.dataset.t;paint(true)},
+  filter(el){S.filter=el.dataset.f;paint(true)},
+  async newEp(){const n=S.briefs.reduce((m,b)=>Math.max(m,parseInt(b.id.replace(/\D/g,""))||0),0)+1;const id="ep"+String(n).padStart(2,"0");
+    await busy("Tạo tập mới",async()=>{await S.db.doc("briefs/"+id).set({title:"Tập "+n,idea:"",minutes:20,at:now()});pickEp(id);S.tab="dau-vao"})},
+  async saveBrief(){const b=S.briefs.find(x=>x.id===S.ep);if(!b)return;
+    await busy("Lưu ý tưởng",async()=>{await S.db.doc("briefs/"+S.ep).set({...strip(b),title:$("f-title").value.trim()||b.title,idea:$("f-idea").value,minutes:Math.max(1,parseInt($("f-min").value)||20),updatedAt:now()});S.dirty.clear();flash("Đã lưu ý tưởng.")})},
+  async delInput(el){const it=S.inputs.find(x=>x.id===el.dataset.id);if(!it||el.dataset.sure!=="1"){el.dataset.sure="1";el.textContent="Xóa?";el.style.width="auto";el.style.padding="0 8px";return}
+    await busy("Xóa ảnh",async()=>{await S.db.doc("episodes/"+S.ep+"/inputs/"+it.id).delete();try{await S.assets.delete(it.asset)}catch(e){}})},
+  async job(el){const type=el.dataset.type,ep=el.dataset.ep||"";const noteEl=el.dataset.note?$(el.dataset.note):null;const note=noteEl?noteEl.value.trim():"";
+    if(type==="tra-loi"&&!note){flash("Hãy viết câu trả lời trước khi gửi.","err");return}
+    await busy("Giao việc",async()=>{await S.db.collection("jobs").add({type,ep,note,state:"queued",at:now()});if(noteEl)noteEl.value="";S.dirty.clear();flash("Đã xếp việc “"+JOBS[type]+"”. Mở Claude Code của dự án và gõ /studio để agents bắt đầu.")})},
+  async cancelJob(el){await busy("Hủy việc",async()=>{await S.db.doc("jobs/"+el.dataset.id).delete()})},
+  async copy(el){const t=$(el.dataset.t).textContent;try{await navigator.clipboard.writeText(t)}catch(e){const r=document.createRange();r.selectNodeContents($(el.dataset.t));const s=getSelection();s.removeAllRanges();s.addRange(r)}
+    const old=el.textContent;el.textContent="Đã sao chép";setTimeout(()=>{el.textContent=old},1600)},
+  async addLib(){const title=$("l-title").value.trim();if(!title){flash("Hãy đặt tên cho mục thư viện.","err");return}
+    const files=[...$("l-files").files];const kind=$("l-kind").value;
+    await busy("Tải lên thư viện",async()=>{const clips=[],frames=[];
+      for(const f of files){if(f.type.startsWith("video/")){if(f.size>20*1048576)throw{code:"too_large"};
+          S.busy="Tải clip "+f.name;paint();const id=await S.assets.upload(f,{type:f.type});clips.push({asset:id.id,name:f.name});
+          S.busy="Trích khung hình từ "+f.name;paint();const fr=await grabFrames(f,10);
+          for(const x of fr){const r=await S.assets.upload(x.blob,{type:"image/jpeg"});frames.push({asset:r.id,clip:f.name,t:x.t,note:"",auto:true})}}
+        else if(f.type.startsWith("image/")){S.busy="Tải ảnh "+f.name;paint();frames.push({asset:await put(f),clip:"",t:null,note:"",name:f.name})}}
+      await S.db.collection("library").add({kind,title,channel:$("l-channel").value.trim(),url:$("l-url").value.trim(),text:$("l-text").value,timeline:$("l-timeline").value,clips,frames,at:now()});
+      ["l-title","l-channel","l-url","l-text","l-timeline"].forEach(i=>$(i).value="");$("l-files").value="";S.dirty.clear();
+      flash("Đã thêm vào thư viện"+(frames.length?" cùng "+frames.length+" khung hình":"")+". Bấm “Phân tích mục mới” để agents đọc.")})},
+  async delLib(el){if(el.dataset.sure!=="1"){el.dataset.sure="1";el.textContent="Xóa hẳn mục này?";return}const it=S.lib.find(x=>x.id===el.dataset.id);if(!it)return;
+    await busy("Xóa mục thư viện",async()=>{await S.db.doc("library/"+it.id).delete();for(const a of [...(it.clips||[]),...(it.frames||[])]){try{await S.assets.delete(a.asset)}catch(e){}}})},
+  async saveFrameNotes(el){const it=S.lib.find(x=>x.id===el.dataset.id);if(!it)return;
+    const frames=(it.frames||[]).map((f,i)=>({...f,note:($("fn-"+it.id+"-"+i)||{}).value??f.note}));
+    await busy("Lưu ghi chú",async()=>{await S.db.doc("library/"+it.id).set({...strip(it),frames,updatedAt:now()});S.dirty.clear();flash("Đã lưu ghi chú khung hình.")})},
+  async decide(el){await busy("Ghi quyết định",async()=>{await S.db.doc("decisions/"+el.dataset.id).set({status:el.dataset.s,at:now()})})},
+};
+const strip=o=>{const c={...o};delete c.id;return c};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act]");if(!el||S.busy)return;const f=ACT[el.dataset.act];if(f){e.preventDefault();Promise.resolve(f(el)).catch(x=>fail(x))}});
+document.addEventListener("input",e=>{if(e.target.id&&e.target.matches("input[type=text],input[type=number],textarea"))S.dirty.add(e.target.id)});
+document.addEventListener("change",e=>{const el=e.target;if(!el.matches("input[type=file][data-up]"))return;const files=[...el.files];if(!files.length)return;const up=el.dataset.up;
+  if(up==="input"){busy("Tải ảnh đầu vào",async()=>{for(const f of files){S.busy="Tải "+f.name;paint();const id=await put(f);await S.db.collection("episodes/"+S.ep+"/inputs").add({kind:el.dataset.kind,asset:id,name:f.name,at:now()})}flash("Đã tải "+files.length+" ảnh.")})}
+  else{const shot=el.dataset.shot,field=up==="real"?"real":"plan";busy("Tải ảnh "+shot,async()=>{const id=await put(files[0]);const old=S.media[shot]||{};await S.db.doc("episodes/"+S.ep+"/media/"+shot).set({...old,[field]:id,[field+"At"]:now()});flash(field==="real"?"Đã nhận ảnh thực tế "+shot+". Giao việc “Nhận xét ảnh mới” khi bạn tải xong đợt này.":"Đã gắn hình dự kiến cho "+shot+".")})}
+  el.value=""});
+window.addEventListener("hashchange",()=>{S.view=["tap","thu-vien","agents"].includes(location.hash.slice(1))?location.hash.slice(1):"tap";paint(true)});
+S.view=["tap","thu-vien","agents"].includes(location.hash.slice(1))?location.hash.slice(1):"tap";
+
+/* ---------- Vẽ ---------- */
+function renderMsg(){$("msg").innerHTML=(S.flash?`<div class="note ${S.flash.kind}" role="status">${esc(S.flash.text)}</div>`:"")+(S.busy?`<div class="note" role="status">${esc(S.busy)}…</div>`:"")+(S.stale&&S.ready?'<div class="note">Đang hiện bản lưu từ lần mở trước; dữ liệu có thể chưa mới nhất.</div>':"")}
+function paint(force){renderMsg();
+  $("nav").innerHTML=[["tap","Tập phim"],["thu-vien","Thư viện"],["agents","Agents"]].map(([v,l])=>`<a href="#${v}" class="${S.view===v?"on":""}">${l}</a>`).join("");
+  const q=S.jobs.filter(j=>j.state==="queued").length,r=S.jobs.filter(j=>j.state==="running").length;
+  $("queue").textContent=(r?r+" việc đang chạy · ":"")+(q?q+" việc chờ Claude":"Không có việc chờ");
+  if(!S.db||!S.ready)return;
+  /* giữ lại chữ người dùng đang gõ dở và vị trí con trỏ qua mỗi lần vẽ lại */
+  if(force)S.dirty.clear();
+  const keep={};S.dirty.forEach(id=>{const el=$(id);if(el)keep[id]=el.value});
+  const a=document.activeElement,fid=a&&a.id&&$("app").contains(a)?a.id:"",sel=fid&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null;
+  const y=window.scrollY;$("app").innerHTML=S.view==="thu-vien"?vLib():S.view==="agents"?vAgents():vEpisodes();
+  for(const id in keep){const el=$(id);if(el)el.value=keep[id]}
+  if(fid){const el=$(fid);if(el){el.focus({preventScroll:true});if(sel){try{el.setSelectionRange(sel[0],sel[1])}catch(e){}}}}
+  window.scrollTo(0,y)}
+
+function jobBtn(type,ep,label,alt,noteId){return `<button class="btn ${alt?"alt":""}" data-act="job" data-type="${type}" data-ep="${esc(ep||"")}" ${noteId?`data-note="${noteId}"`:""}>${esc(label||JOBS[type])}</button>`}
+function vEpisodes(){
+  const side=`<aside class="side"><h2>Các tập</h2><div class="eplist">${S.briefs.map(b=>{const e=S.eps[b.id]||{};return `<button data-act="ep" data-id="${esc(b.id)}" class="${S.ep===b.id?"on":""}"><b>${esc(e.title||b.title)}</b><span>${esc(b.id)} · ${e.final?"Final":"bản v"+(e.revision||0)}</span></button>`}).join("")||'<p class="empty" style="margin:6px">Chưa có tập nào.</p>'}</div><div style="margin:10px 4px 4px"><button class="btn alt" data-act="newEp">+ Tập mới</button></div></aside>`;
+  const b=S.briefs.find(x=>x.id===S.ep);
+  if(!b)return `<div class="cols">${side}<div class="main"><div class="sec"><h3>Bắt đầu</h3><p>Tạo một tập, viết ý tưởng thô và tải ảnh bối cảnh, đạo cụ, nhân vật thật. Agents sẽ viết kịch bản và storyboard từ đó.</p><button class="btn" data-act="newEp">Tạo tập đầu tiên</button></div></div></div>`;
+  const e=S.eps[b.id]||{},c=cov(),n=Math.max(c.total,1),pc=k=>(c[k]/n*100).toFixed(2)+"%";
+  const secs=allShots().reduce((t,x)=>t+(+x.sh.seconds||0),0);
+  const head=`<div class="head"><h1>${esc(e.title||b.title)}<span class="pill ${e.final?"final":""}">${e.final?"BẢN FINAL":"Bản nháp v"+(e.revision||0)}</span></h1><p>${esc(e.logline||"")}</p>
+    <div class="stats"><span><b>${S.scenes.length}</b> cảnh</span><span><b>${c.total}</b> shot</span><span><b>${(secs/60).toFixed(1)}′</b> / mục tiêu ${b.minutes||20}′</span><span><b>${c.ai+c.real}</b> có hình</span><span><b>${c.real}</b> ảnh thực tế</span><span><b>${c.dat}</b> đạt</span></div>
+    ${c.total?`<div class="prog"><span class="p-dat" style="width:${pc("dat")}"></span><span class="p-chinh" style="width:${pc("chinh")}"></span><span class="p-quay-lai" style="width:${pc("quay-lai")}"></span><span class="p-cho" style="width:${pc("cho")}"></span><span class="p-ai" style="width:${pc("ai")}"></span></div>`:""}</div>`;
+  const gate=e.gate?`<div class="note"><b>Agents đang chờ bạn quyết định:</b> ${esc(e.gate)}<label class="f" for="gate-ans">Câu trả lời của bạn</label><textarea id="gate-ans" style="min-height:70px"></textarea><div class="row" style="margin-top:8px">${jobBtn("tra-loi",b.id,"Gửi câu trả lời",false,"gate-ans")}</div></div>`:"";
+  const tabs=`<div class="tabs" role="tablist">${TABS.map(([t,l])=>`<button role="tab" data-act="tab" data-t="${t}" class="${S.tab===t?"on":""}">${l}</button>`).join("")}</div>`;
+  const body={"dau-vao":tInput,"kich-ban":tScript,"storyboard":tBoard,"tao-anh":tPrompts,"huong-dan":tGuide,"tien-trinh":tProgress}[S.tab](b,e,c);
+  return `<div class="cols">${side}<div class="main">${head}${gate}${tabs}${body}</div></div>`}
+
+function tInput(b,e){
+  const up=KINDS.map(([k,l,h])=>{const it=S.inputs.filter(x=>x.kind===k);return `<div class="sec"><h3>${l} · ${it.length} ảnh</h3><div class="drop">${h}<br><label class="btn alt sm" style="display:inline-block;margin-top:6px">Chọn ảnh<input type="file" accept="image/*" multiple hidden data-up="input" data-kind="${k}" id="up-${k}"></label></div>
+    ${it.length?`<div class="thumbs">${it.map(x=>`<div class="thumb"><img loading="lazy" src="${blob(x.asset)}" alt="${esc(x.name)}"><button class="x" data-act="delInput" data-id="${esc(x.id)}" aria-label="Xóa ảnh">×</button><div class="cap">${esc(x.name)}</div></div>`).join("")}</div>`:""}</div>`}).join("");
+  const started=S.scenes.length>0;
+  return `<div class="sec"><h3>Ý tưởng thô</h3>
+    <label class="f" for="f-title">Tên tập</label><input type="text" id="f-title" value="${esc(b.title)}">
+    <label class="f" for="f-idea">Tập này làm ra cái gì, ở đâu, có ai, có gì sẵn, món ăn cuối tập, điều phải có hoặc phải tránh</label><textarea id="f-idea" style="min-height:170px" placeholder="Viết tự do, vài dòng cũng được. Thiếu gì agents sẽ hỏi lại.">${esc(b.idea)}</textarea>
+    <div class="row" style="margin-top:10px"><label class="f" for="f-min" style="margin:0">Thời lượng (phút)</label><input type="number" id="f-min" min="1" max="60" value="${esc(b.minutes||20)}" style="width:90px"><button class="btn alt" data-act="saveBrief">Lưu ý tưởng</button></div></div>
+    ${up}
+    <div class="sec"><h3>Giao cho agents</h3><p style="margin-top:0">Ảnh không cần đủ: có ảnh nào agents dùng ảnh đó, thiếu thì viết theo mô tả và liệt kê ảnh nên chụp thêm.</p>
+    <div class="row">${jobBtn("tap-moi",b.id,started?"Viết lại kịch bản & storyboard":"Viết kịch bản & storyboard")}${started?jobBtn("storyboard",b.id,"Cập nhật storyboard theo ảnh đầu vào mới",true):""}</div></div>`}
+
+function tScript(b,e){const have=DOCS.filter(([k])=>S.docs[k]&&S.docs[k].md);
+  if(!have.length)return `<div class="sec"><p class="empty">Chưa có kịch bản. Ở tab Đầu vào, bấm “Viết kịch bản & storyboard”.</p></div>`;
+  return have.map(([k,l])=>`<div class="sec"><h3>${l}${S.docs[k].at?" · "+when(S.docs[k].at):""}</h3><div class="prose">${md(S.docs[k].md)}</div></div>`).join("")}
+
+function card(sh){const st=state(sh),m=S.media[sh.id]||{};const fr=[];
+  if(m.plan)fr.push(`<div class="frame"><span class="lab">DỰ KIẾN · AI</span><img loading="lazy" src="${blob(m.plan)}" alt="Hình dự kiến ${esc(sh.id)}"></div>`);
+  if(m.real)fr.push(`<div class="frame"><span class="lab">THỰC TẾ</span><img loading="lazy" src="${blob(m.real)}" alt="Ảnh thực tế ${esc(sh.id)}"></div>`);
+  if(!fr.length)fr.push(`<div class="frame">Chưa có hình</div>`);
+  const dl=[["Góc máy",sh.angle],["Bố cục",sh.composition],["Ánh sáng",sh.light],["Âm thanh",sh.sound_note],["Cắt sang",sh.cut],["Cặp match cut",sh.pair],["Kỹ thuật",(sh.technique||[]).join(", ")],["Ghi chú",sh.note]].filter(x=>x[1]);
+  return `<article class="shot ${sh.key?"key":""}"><div class="frames ${fr.length===2?"two":""}">${fr.join("")}</div><div class="sb">
+    <div class="r1"><span class="sid">${esc(sh.id)}</span><span class="badge b-${st}">${ST_LABEL[st]}</span>${sh.key?'<span class="badge">Chủ chốt</span>':""}${sh.micro_cut?'<span class="badge">Micro Cut</span>':""}<span class="sec-n">${esc(sh.seconds)}s</span></div>
+    <div class="spec">${esc(sh.size)} · ${esc(sh.focal_mm)}mm · F${esc(sh.aperture)} · ${esc(sh.fps)}fps · ${esc(sh.support)}${!sh.movement||sh.movement==="static"?"":" · "+esc(sh.movement)}</div>
+    <div>${esc(sh.action)}</div>${sh.link?`<div class="link">↳ ${esc(sh.link)}</div>`:""}
+    ${sh.direction?`<div class="guide"><b>Hướng dẫn quay:</b> ${esc(sh.direction)}</div>`:""}
+    ${dl.length?"<dl>"+dl.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")+"</dl>":""}
+    ${m.real?(st==="cho"?'<div class="fb">Đã nhận ảnh thực tế, chờ Quay phim nhận xét.</div>':`<div class="fb ${st}"><b>Nhận xét — ${ST_LABEL[st]}:</b> ${esc(sh.real_note)}</div>`):""}
+    <div class="up"><label class="btn sm">${m.real?"Đổi ảnh thực tế":"Tải ảnh thực tế"}<input type="file" accept="image/*" hidden data-up="real" data-shot="${esc(sh.id)}" id="ur-${esc(sh.id)}"></label><label class="btn alt sm">${m.plan?"Đổi hình dự kiến":"Gắn hình dự kiến"}<input type="file" accept="image/*" hidden data-up="plan" data-shot="${esc(sh.id)}" id="up-${esc(sh.id)}"></label></div>
+  </div></article>`}
+function tBoard(b,e,c){if(!S.scenes.length)return `<div class="sec"><p class="empty">Chưa có storyboard. Ở tab Đầu vào, bấm “Viết kịch bản & storyboard”.</p></div>`;
+  const F=[["all","Tất cả"],["key","Chủ chốt"],["todo","Còn việc"],["trong","Chưa có hình"],["cho","Chờ nhận xét"],["chinh","Cần chỉnh"],["quay-lai","Quay lại"],["dat","Đạt"]];
+  const keep=sh=>{const s=state(sh);return S.filter==="all"||(S.filter==="key"&&sh.key)||(S.filter==="todo"&&s!=="dat")||s===S.filter};
+  const beats=[...new Set(S.scenes.map(s=>s.beat||""))];
+  const bar=`<div class="sec"><h3>Dòng thời gian dựng</h3><div class="bar">${S.scenes.map(sc=>{const s=(sc.shots||[]).reduce((t,x)=>t+(+x.seconds||0),0);return `<span style="flex:${Math.max(s,1)};background:${BEAT[beats.indexOf(sc.beat||"")%BEAT.length]}" title="${esc(sc.id+" "+(sc.title||"")+" · "+s+"s")}">${esc(sc.id)}</span>`}).join("")}</div>
+    <div class="stats">${beats.map((x,i)=>`<span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${BEAT[i%BEAT.length]}"></span> ${esc(x||"Chưa gán beat")}</span>`).join("")}</div></div>`;
+  const list=S.scenes.map(sc=>{const sh=(sc.shots||[]).filter(keep);if(!sh.length)return"";const sd=sc.sound||{};
+    return `<div class="scene"><h4>${esc(sc.id)} · ${esc(sc.title)}</h4><div class="m">${esc(sc.location)} · ${esc(sc.story_time)} · quay ${esc(sc.clock_slot)}</div></div>
+    <div class="sound"><b>Âm thanh:</b> nền — ${esc(sd.ambience)} · thao tác — ${esc(sd.foley)}${sd.accent?" · điểm nhấn — "+esc(sd.accent):""}${sd.bgm?" · nhạc — "+esc(sd.bgm):" · không nhạc"}</div><div class="grid">${sh.map(card).join("")}</div>`}).join("");
+  return `${bar}<div class="filters">${F.map(([f,l])=>`<button data-act="filter" data-f="${f}" class="${S.filter===f?"on":""}">${l}</button>`).join("")}</div>${list||'<p class="empty">Không có shot nào khớp bộ lọc.</p>'}
+    <div class="sec" style="margin-top:18px"><h3>Sau khi tải ảnh thực tế</h3><div class="row">${jobBtn("cap-nhat",b.id)}${jobBtn("final",b.id,"Chốt bản Final",true)}</div></div>`}
+
+function tPrompts(b){const items=allShots().filter(({sh})=>sh.prompt&&!(S.media[sh.id]||{}).real).sort((a,z)=>(z.sh.key?1:0)-(a.sh.key?1:0));
+  if(!items.length)return `<div class="sec"><p class="empty">${S.scenes.length?"Mọi shot có prompt đều đã có ảnh thực tế, hoặc agents chưa dựng prompt.":"Chưa có prompt. Agents dựng prompt sau khi viết xong storyboard."}</p></div>`;
+  return `<div class="note"><b>Cách làm:</b> mở ChatGPT hoặc Gemini, dùng một cuộc trò chuyện cho cả tập. Với mỗi thẻ: tải các ảnh tham chiếu về và đính kèm theo đúng thứ tự Image 1, 2…, sao chép prompt, dán. Lưu ảnh kết quả rồi bấm “Gắn hình dự kiến” ngay trên thẻ. Làm thẻ chủ chốt trước; shot đã có ảnh thực tế không hiện ở đây.</div>`+
+  items.map(({sc,sh},i)=>`<div class="sec"><h3>${esc(sh.id)}${sh.key?" · chủ chốt":""} · ${esc(sc.title)}</h3><p style="margin:0 0 8px;color:var(--mute)">${esc(sh.action)}</p>
+    ${(sh.prompt_refs||[]).length?`<div class="thumbs">${sh.prompt_refs.map((r,k)=>`<a class="thumb" href="${blob(r.asset)}" target="_blank" rel="noopener"><img loading="lazy" src="${blob(r.asset)}" alt=""><div class="cap">Image ${k+1} · ${esc(r.label)}</div></a>`).join("")}</div>`:'<p class="empty" style="font-size:13px">Chưa có ảnh tham chiếu thật cho khung hình này; prompt chỉ dựa trên mô tả chữ.</p>'}
+    <pre id="pr-${i}" style="margin-top:10px">${esc(sh.prompt)}</pre><div class="row"><button class="btn sm" data-act="copy" data-t="pr-${i}">Sao chép prompt</button>
+    <label class="btn alt sm">${(S.media[sh.id]||{}).plan?"Đổi hình dự kiến":"Gắn hình dự kiến"}<input type="file" accept="image/*" hidden data-up="plan" data-shot="${esc(sh.id)}" id="pp-${esc(sh.id)}"></label></div></div>`).join("")}
+
+function tGuide(b){if(!S.scenes.length)return `<div class="sec"><p class="empty">Chưa có hướng dẫn quay.</p></div>`;
+  const slots=[...new Set(S.scenes.map(s=>s.clock_slot))].sort();
+  const sched=`<div class="sec"><h3>Lịch quay theo ánh sáng</h3><div style="overflow-x:auto"><table><tr><th>Khung giờ</th><th>Cảnh</th><th>Shot</th><th>Còn phải quay</th></tr>${slots.map(sl=>{const scs=S.scenes.filter(s=>s.clock_slot===sl);const sh=scs.flatMap(s=>s.shots||[]);return `<tr><td><b>${esc(sl)}</b></td><td>${scs.map(s=>esc(s.id+" "+(s.title||""))).join(", ")}</td><td>${sh.length}</td><td>${sh.filter(x=>state(x)!=="dat").length}</td></tr>`}).join("")}</table></div></div>`;
+  const props=[...new Set(allShots().flatMap(x=>x.sh.props||[]))].sort();
+  const pr=props.length?`<div class="sec"><h3>Đạo cụ cần chuẩn bị</h3><div class="prose"><ul style="columns:3 200px">${props.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div></div>`:"";
+  const d=k=>S.docs[k]&&S.docs[k].md?`<div class="sec"><h3>${k==="ghi-chu-quay"?"Ghi chú quay":"Âm thanh"}</h3><div class="prose">${md(S.docs[k].md)}</div></div>`:"";
+  return sched+pr+d("ghi-chu-quay")+d("am-thanh")}
+
+function pipeline(e){const st=e.stages||{};return `<div class="pipe">${STAGES.map(([k,l],i)=>`<div class="st ${esc(st[k]||"todo")}"><b>${i+1}. ${S_ST[st[k]||"todo"]}</b>${l}</div>`).join("")}</div>`}
+function agentCards(e){const a=e.agents||{};return `<div class="agents">${Object.entries(AGENTS).map(([k,n])=>{const x=a[k]||{state:"idle"};return `<div class="ag ${esc(x.state)}"><b>${n}</b><span>${A_ST[x.state]||esc(x.state)}${x.at?" · "+when(x.at):""}</span><p>${esc(x.msg)}</p></div>`}).join("")}</div>`}
+function logTable(e,n){const l=(e.log||[]).slice(-n).reverse();return l.length?`<div style="overflow-x:auto"><table class="log">${l.map(x=>`<tr><td>${when(x.at)}</td><td><b>${esc(AGENTS[x.who]||x.who)}</b></td><td>${esc(x.msg)}</td></tr>`).join("")}</table></div>`:'<p class="empty">Chưa có hoạt động.</p>'}
+function tProgress(b,e){const rv=(e.revisions||[]).slice().reverse();
+  return `<div class="sec"><h3>Các bước</h3>${pipeline(e)}</div><div class="sec"><h3>Agents</h3>${agentCards(e)}</div><div class="sec"><h3>Nhật ký</h3>${logTable(e,25)}</div>
+  <div class="sec"><h3>Lịch sử phiên bản</h3>${rv.length?`<table><tr><th>Bản</th><th>Lúc</th><th>Thay đổi</th></tr>${rv.map(r=>`<tr><td>v${esc(r.n)}</td><td>${when(r.at)}</td><td>${esc(r.note)}</td></tr>`).join("")}</table>`:'<p class="empty">Chưa có phiên bản nào.</p>'}${e.reportUrl?`<p><a class="btn alt sm" href="${esc(e.reportUrl)}" target="_blank" rel="noopener">Mở báo cáo một trang của bản mới nhất</a></p>`:""}</div>`}
+
+function vAgents(){const jobs=S.jobs.filter(j=>j.state!=="done").slice(0,12);
+  const q=`<div class="sec"><h3>Hàng việc</h3>${jobs.length?`<table><tr><th>Lúc</th><th>Việc</th><th>Tập</th><th>Ghi chú</th><th>Trạng thái</th><th></th></tr>${jobs.map(j=>`<tr><td>${when(j.at)}</td><td>${esc(JOBS[j.type]||j.type)}</td><td>${esc(j.ep)}</td><td>${esc(j.note)}</td><td>${j.state==="running"?"Đang chạy":j.state==="error"?"Lỗi: "+esc(j.result):"Chờ Claude"}</td><td>${j.state==="queued"?`<button class="btn red sm" data-act="cancelJob" data-id="${esc(j.id)}">Hủy</button>`:""}</td></tr>`).join("")}</table>
+    <p style="margin-bottom:0">Việc trong hàng chỉ chạy khi một phiên Claude Code của dự án đang mở. Trong phiên đó gõ <span class="cmd"><span id="cmd-studio">/studio</span><button class="btn sm" data-act="copy" data-t="cmd-studio">Sao chép</button></span></p>`:'<p class="empty">Không có việc nào đang chờ. Giao việc từ tab Đầu vào, Storyboard hoặc Thư viện.</p>'}
+    <label class="f" for="job-note">Yêu cầu khác cho agents</label><textarea id="job-note" style="min-height:70px" placeholder="Ví dụ: viết lại cảnh S04 ngắn hơn, bỏ shot trên giàn giáo"></textarea><div class="row" style="margin-top:8px">${jobBtn("khac",S.ep||"","Gửi yêu cầu",true,"job-note")}</div></div>`;
+  const eps=S.briefs.map(b=>{const e=S.eps[b.id]||{};return `<div class="sec"><h3>${esc(e.title||b.title)} · ${esc(b.id)} · ${e.final?"Final":"bản v"+(e.revision||0)}</h3>${e.gate?`<div class="note"><b>Đang chờ bạn:</b> ${esc(e.gate)} <a href="#tap" data-act="ep" data-id="${esc(b.id)}">Mở tập để trả lời</a></div>`:""}${pipeline(e)}<div style="height:10px"></div>${agentCards(e)}<div style="height:10px"></div>${logTable(e,8)}</div>`}).join("");
+  const done=S.jobs.filter(j=>j.state==="done").slice(0,8);
+  return q+(eps||'<div class="sec"><p class="empty">Chưa có tập nào.</p></div>')+(done.length?`<div class="sec"><h3>Việc đã xong gần đây</h3><table>${done.map(j=>`<tr><td>${when(j.doneAt||j.at)}</td><td>${esc(JOBS[j.type]||j.type)} ${esc(j.ep)}</td><td>${esc(j.result)}</td></tr>`).join("")}</table></div>`:"")}
+
+function vLib(){
+  const form=`<div class="sec"><h3>Thêm vào thư viện</h3>
+    <div class="row"><div style="flex:1 1 150px"><label class="f" for="l-kind">Loại</label><select id="l-kind"><option value="video-mau">Video mẫu (clip ngắn + khung hình)</option><option value="kien-thuc">Kiến thức / ghi chú</option></select></div>
+    <div style="flex:3 1 240px"><label class="f" for="l-title">Tên</label><input type="text" id="l-title" placeholder="Ví dụ: Lý Tử Thất – làm bàn tre, đoạn chẻ tre"></div>
+    <div style="flex:1 1 160px"><label class="f" for="l-channel">Kênh</label><input type="text" id="l-channel"></div></div>
+    <label class="f" for="l-url">Link video gốc (tùy chọn)</label><input type="text" id="l-url" placeholder="https://…">
+    <label class="f" for="l-text">Nội dung / điều bạn muốn học từ đoạn này</label><textarea id="l-text" style="min-height:90px"></textarea>
+    <label class="f" for="l-timeline">Timeline (tùy chọn, mỗi dòng một mốc: 0:00–0:12 chặt tre, máy tĩnh…)</label><textarea id="l-timeline" style="min-height:70px"></textarea>
+    <label class="f" for="l-files">Clip ngắn (MP4/WebM, tối đa 20 MB mỗi clip) và ảnh chụp cú máy</label><input type="file" id="l-files" multiple accept="video/mp4,video/webm,image/*">
+    <p class="empty" style="font-size:13px;margin:6px 0 10px">Mỗi clip được tự trích tối đa 10 khung hình cách đều để agents xem. Agents đọc khung hình và ghi chú của bạn; chúng không nghe được âm thanh của clip.</p>
+    <div class="row"><button class="btn" data-act="addLib" ${S.assets?"":"disabled"}>Thêm vào thư viện</button>${jobBtn("nap-thu-vien","","Phân tích mục mới",true)}${jobBtn("hoc-tu-thu-vien","","Rút kỹ thuật & nâng cấp agents",true)}</div></div>`;
+  const cards=S.cards.length?`<div class="sec"><h3>Thẻ kỹ thuật agents đề xuất</h3>${S.cards.map(c=>{const d=(S.decisions[c.id]||{}).status;return `<div class="card"><h4>${esc(c.id)} · ${esc(c.title)} <span class="badge ${d==="duyet"?"b-dat":d==="bo"?"b-quay-lai":"b-chinh"}">${d==="duyet"?"Đã duyệt":d==="bo"?"Đã bỏ":"Chờ bạn duyệt"}</span></h4><div class="spec">${esc(c.kind)} · dành cho ${esc((c.for||[]).map(a=>AGENTS[a]||a).join(", "))}</div><div class="prose">${md(c.md)}</div>
+      <div class="row"><button class="btn sm" data-act="decide" data-id="${esc(c.id)}" data-s="duyet">Duyệt</button><button class="btn red sm" data-act="decide" data-id="${esc(c.id)}" data-s="bo">Bỏ</button></div></div>`}).join("")}</div>`:"";
+  const items=S.lib.map(it=>{const an=S.analysis[it.id];const fr=it.frames||[];
+    return `<div class="sec"><h3>${it.kind==="video-mau"?"Video mẫu":"Kiến thức"} · ${when(it.at)} · ${an?"đã phân tích":"chờ phân tích"}</h3><h4 style="margin:0 0 4px;font-size:17px">${esc(it.title)}</h4>
+    <div class="spec">${esc(it.channel)}${it.url?` · <a href="${esc(/^https?:\/\//.test(it.url)?it.url:"#")}" target="_blank" rel="noopener">video gốc</a>`:""} · ${(it.clips||[]).length} clip · ${fr.length} khung hình</div>
+    ${it.text?`<p>${esc(it.text)}</p>`:""}${it.timeline?`<pre>${esc(it.timeline)}</pre>`:""}
+    ${(it.clips||[]).length?`<div class="thumbs">${it.clips.map(c=>`<div class="thumb"><video src="${blob(c.asset)}" controls preload="metadata" muted></video><div class="cap">${esc(c.name)}</div></div>`).join("")}</div>`:""}
+    ${fr.length?`<div class="thumbs">${fr.map((f,i)=>`<div class="thumb"><a href="${blob(f.asset)}" target="_blank" rel="noopener"><img loading="lazy" src="${blob(f.asset)}" alt="Khung hình ${i+1}"></a><div class="cap">#${i+1}${f.t!=null?" · "+f.t+"s":""}${f.clip?" · "+esc(f.clip):""}</div><input type="text" id="fn-${esc(it.id)}-${i}" value="${esc(f.note)}" placeholder="Ghi chú cú máy" aria-label="Ghi chú khung hình ${i+1}" style="border:0;border-top:1px solid var(--line);border-radius:0;font-size:12px"></div>`).join("")}</div><div class="row" style="margin-top:8px"><button class="btn alt sm" data-act="saveFrameNotes" data-id="${esc(it.id)}">Lưu ghi chú khung hình</button></div>`:""}
+    ${an?`<div class="card" style="margin-top:12px"><h4>Phân tích của Thủ thư · ${when(an.at)}</h4><div class="prose">${md(an.md)}</div></div>`:""}
+    <div class="row" style="margin-top:8px"><button class="btn red sm" data-act="delLib" data-id="${esc(it.id)}">Xóa mục</button></div></div>`}).join("");
+  const pb=S.playbooks.filter(p=>p.md).map(p=>`<details class="card"><summary><b>Sổ tay ${esc(AGENTS[p.id]||p.id)}</b> · cập nhật ${when(p.at)}</summary><div class="prose">${md(p.md)}</div></details>`).join("");
+  return form+cards+(items||'<div class="sec"><p class="empty">Thư viện chưa có gì. Thêm đoạn clip ngắn của video mẫu kèm ghi chú để agents học cách quay và kể chuyện.</p></div>')+(pb?`<div class="sec"><h3>Sổ tay của agents</h3>${pb}</div>`:"")}
+
+paint();
+if(window.claude&&window.claude.use)boot();else{S.ready=true;$("app").innerHTML='<div class="note err">Trang này cần mở trong claude.ai để đọc và lưu dữ liệu của xưởng.</div>'}
+</script>

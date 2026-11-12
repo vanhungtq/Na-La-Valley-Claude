@@ -2,6 +2,24 @@
 
 Cập nhật 12/11/2026 (bản 2). Đã đọc: Project Bible, repo `vanhungtq/valley-chibi-studio`, repo `0xsline/StoryGen-Atelier`, và mô tả quy trình thực tế của chủ dự án.
 
+## 0. Bản 3 — app trên Claude là giao diện, repo chỉ giữ code
+
+Theo yêu cầu mới của chủ dự án: làm việc qua một app trực quan chạy trên Claude thay vì thả file vào repo.
+
+| Phần | Ở đâu | Việc |
+|---|---|---|
+| **App Nà Lạ Studio** | Trang Artifact trên claude.ai, có cơ sở dữ liệu và kho tệp riêng (tính năng có sẵn của Claude, không tốn thêm phí, không cần máy chủ) | Nhập ý tưởng, tải ảnh, xem kịch bản/storyboard/hướng dẫn quay, tải ảnh thực tế, thư viện clip mẫu, duyệt thẻ kỹ thuật, dashboard agents trực tiếp |
+| **Agents** | Phiên Claude Code mở trên repo, lệnh `/studio` | Đọc hàng việc từ app, chạy quy trình, ghi kết quả và tiến trình lên app |
+| **Repo** | GitHub | Mã nguồn app, agents, skills, scripts, kiến thức nền, sổ tay agents |
+
+Các mục 3–4 bên dưới mô tả quy trình agents vẫn đúng; chỗ nào nói "thả file vào thư mục" hay "bao-cao.html" thì nay là thao tác trong app.
+
+**Vì sao không để app tự chạy agents:** trang app không tự mở được phiên Claude Code có đủ agents và công cụ. Vì vậy app xếp việc vào hàng, phiên Claude Code xử lý khi bạn gõ `/studio`. Có thể nối tự động hơn về sau (app gọi kết nối Claude Code để mở phiên), nhưng tôi chưa thử nên chưa đưa vào.
+
+**Clip mẫu:** bạn tải clip ngắn (≤ 20 MB); app tự trích tối đa 10 khung hình cách đều ngay trong trình duyệt; bạn ghi chú từng khung nếu muốn. Agents đọc chuỗi khung hình để suy ra cỡ cảnh, góc máy, bố cục, ánh sáng và chuyển động; không nghe được âm thanh.
+
+**Bài viết về dây chuyền 4 agent** (agentskillsvn.tech) không mở được từ phiên này vì tên miền nằm ngoài danh sách mạng cho phép, nên chưa đối chiếu. Thiết kế hiện tại đã theo các nguyên tắc multi-agent phổ biến: mỗi agent một ngữ cảnh riêng và một trách nhiệm, bàn giao bằng file có cấu trúc, một người điều phối, người rà soát độc lập không tự sửa bài, kiểm tra máy móc giữa các bước, cổng duyệt của con người.
+
 ## 1. Kết luận
 
 **Repo này là xưởng. Claude Code viết và điều phối. Chủ dự án cung cấp thực tế (ý tưởng, ảnh thật, ảnh từng shot) và tự tạo ảnh AI từ gói prompt. Mọi thứ hội tụ vào một file `bao-cao.html` được dựng lại sau mỗi vòng cho đến bản Final.**
