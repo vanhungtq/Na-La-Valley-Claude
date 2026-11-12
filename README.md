@@ -35,8 +35,4 @@ Việc trong hàng chỉ chạy khi có một phiên Claude Code đang mở và 
 
 ## Cho người sửa code
 
-```bash
-python3 scripts/validate_episode.py episodes/_template --draft
-```
-
 Sửa giao diện: `studio/app.html`, đăng lại qua công cụ Artifact của Claude với `url` trong `studio/app.json`. Lý do thiết kế: [`docs/PHUONG_AN.md`](docs/PHUONG_AN.md).
