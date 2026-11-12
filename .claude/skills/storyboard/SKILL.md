@@ -1,43 +1,35 @@
 ---
 name: storyboard
-description: Tạo hoặc bổ sung storyboard cho một tập Nà Lạ Valley - chọn shot chủ chốt, viết prompt atlas 2x2, tạo ảnh bằng Codex CLI (gói ChatGPT, không API) hoặc xuất prompt để dán tay vào ChatGPT/Gemini, hoặc vẽ sơ đồ SVG. Dùng khi chủ dự án nói "làm storyboard", "tạo ảnh phân cảnh", "/storyboard 01".
-argument-hint: "<số tập> [svg|codex|thu-cong] [cảnh hoặc shot cụ thể]"
+description: Dựng hoặc bổ sung storyboard cho một tập Nà Lạ Valley - visual bible từ ảnh thật, mô tả khung hình từng shot, và gói prompt (goi-prompt.html) kèm ảnh tham chiếu để chủ dự án tự tạo ảnh thủ công bằng ChatGPT/Gemini. Dùng khi chủ dự án nói "làm storyboard", "xuất prompt tạo ảnh", "làm lại prompt cảnh 3", "/storyboard 01".
+argument-hint: "<số tập> [cảnh hoặc shot cụ thể] [tat-ca]"
 ---
 
 # Storyboard
 
-## 1. Chọn đường tạo ảnh
+Mặc định của dự án: **chủ dự án tự tạo ảnh thủ công** từ gói prompt. Hệ thống không gọi dịch vụ tạo ảnh và không dùng API key. Chất lượng đến từ dữ liệu: mô tả cố định viết từ ảnh thật, ảnh tham chiếu đính kèm, và khung hình liền mạch với khung trước (chuẩn: `knowledge/06-rubric-storyboard.md`).
 
-Kiểm tra môi trường trước khi hứa:
+## Các bước
 
-```bash
-command -v codex && codex login status
-```
+1. `python3 scripts/sync_inputs.py episodes/epNN` — biết ảnh nào mới.
+2. Giao `hoa-si-storyboard`:
+   - **Việc 1** nếu có ảnh đầu vào chưa nằm trong visual bible, hoặc visual bible còn ghi [GIẢ ĐỊNH].
+   - **Việc 2** cho phạm vi được yêu cầu (mặc định: mọi shot chủ chốt chưa có `frame_en`; `tat-ca`: cả shot thường).
+   - **Việc 3** dựng gói prompt.
+3. Giao `giam-sat` rà bước "storyboard" khi làm cả tập lần đầu.
+4. Dựng lại báo cáo: `python3 scripts/build_report.py episodes/epNN`.
 
-| Tình huống | Đường đi |
-|---|---|
-| Có Codex CLI và đã đăng nhập ChatGPT | **codex** — tự động, ảnh lưu thẳng vào repo |
-| Phiên Claude trên cloud/điện thoại, hoặc Codex báo hết hạn mức | **thu-cong** — xuất prompt; chủ dự án dán vào ChatGPT hoặc Gemini, lưu ảnh về `06-storyboard/atlas-NN.png`, rồi gọi lại skill để gắn |
-| Cần nhanh, hoặc shot phụ | **svg** — Claude tự vẽ sơ đồ |
+## Báo chủ dự án
 
-Mặc định khuyến nghị: **shot chủ chốt bằng ảnh AI, phần còn lại SVG hoặc để trống**. Nói cho chủ dự án biết ước lượng số atlas trước khi chạy (mỗi atlas 1–4 phút và tốn hạn mức ChatGPT đáng kể).
+- `episodes/epNN/goi-prompt.html`: mỗi thẻ có ảnh tham chiếu cần đính kèm, nút sao chép prompt, tên file cần lưu. Bản chữ: `goi-prompt.md`.
+- Số khung cần tạo, bao nhiêu chủ chốt. Khuyên làm chủ chốt trước, trong **một** cuộc trò chuyện ChatGPT/Gemini cho cả tập.
+- Lưu ảnh vào `episodes/epNN/storyboard/<ID shot>.png` rồi gọi `/cap-nhat NN`.
+- Shot nào đã có ảnh thực tế thì không cần tạo ảnh AI.
+- Ảnh nên chụp thêm để prompt chính xác hơn (từ kết quả của Họa sĩ).
 
-Không dùng API key. Không đề xuất các tiện ích gọi API trả tiền (kể cả tiện ích Nano Banana của Gemini CLI — nó cần API key).
+## Khi ảnh AI trả về sai
 
-## 2. Giao việc
+Chủ dự án nói ảnh sai thế nào → giao `hoa-si-storyboard` sửa **dữ liệu nguồn** (`desc_en` trong visual bible, `frame_en`/`composition_en` của shot, hoặc `style`/`negative` nếu lỗi lặp lại ở nhiều ảnh), dựng lại gói prompt. Ghi quy tắc rút ra vào `knowledge/so-tay/hoa-si-storyboard.md`.
 
-Giao agent `hoa-si-storyboard` với: thư mục tập, đường tạo ảnh đã chọn, phạm vi (cả tập / cảnh / danh sách shot), số atlas tối đa được phép tạo trong lượt này.
+## Tùy chọn: tạo ảnh tự động bằng Codex CLI
 
-## 3. Đường thủ công — hướng dẫn cho chủ dự án
-
-Sau khi agent viết xong `06-storyboard/atlas-NN.txt`, hiển thị cho chủ dự án:
-
-1. Mở ChatGPT (hoặc Gemini), đính kèm `sheet-*.png` trong `knowledge/visual-refs/` nếu có.
-2. Dán nội dung từng file `atlas-NN.txt`, tải ảnh kết quả về.
-3. Lưu đúng tên `episodes/epNN/06-storyboard/atlas-NN.png` rồi nhắn "đã lưu ảnh".
-
-Khi ảnh đã có, giao lại `hoa-si-storyboard` bước xem lại + gắn vào `shots.json`.
-
-## 4. Kết thúc
-
-Chạy validator và `build_production_book.py`. Báo: bao nhiêu shot có hình, atlas nào cần làm lại, hạn mức còn dùng được hay đã chạm trần.
+Chỉ khi chủ dự án yêu cầu rõ và máy có Codex CLI đã đăng nhập ChatGPT. Lưu prompt của một shot ra file rồi chạy `scripts/codex_imagegen.sh <file-prompt> episodes/epNN/storyboard/<ID>.png [ảnh tham chiếu…]`. Script này chưa được chạy thử với Codex thật; thử một ảnh trước.

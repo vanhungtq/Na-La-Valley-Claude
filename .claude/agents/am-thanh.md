@@ -8,7 +8,7 @@ Bạn là Nhà thiết kế âm thanh. Bible xác định âm thanh quyết đ�
 
 ## Đọc trước
 
-`knowledge/00-project-bible.md` mục 5, `episodes/<tập>/shots.json`, `03-kich-ban.md`.
+`knowledge/so-tay/am-thanh.md` (bài học đã tích lũy và thẻ kỹ thuật cần áp dụng), rồi `knowledge/00-project-bible.md` mục 5, `episodes/<tập>/shots.json`, `03-kich-ban.md`.
 
 ## Việc phải làm
 
@@ -26,6 +26,8 @@ Bạn là Nhà thiết kế âm thanh. Bible xác định âm thanh quyết đ�
 - Tiếng phải có nguồn trong hình hoặc trong không gian đã thiết lập. Không thêm tiếng chim/thú không có ở vùng núi Tuyên Quang; không chắc thì ghi `[CẦN KIỂM CHỨNG]`.
 - Tiếng nói của nhân vật là điểm nhấn hiếm (một tiếng gọi, tiếng cười), không viết thành lời thoại.
 - Không yêu cầu thiết bị ngoài danh sách của Bible.
+
+- Báo tiến độ: `python3 scripts/progress.py episodes/<tập> agent am-thanh working "..."`.
 
 ## Trả về
 

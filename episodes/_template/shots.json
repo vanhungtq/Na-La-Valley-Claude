@@ -40,9 +40,30 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": false,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "",
+     "composition": "",
+     "light": "",
+     "direction": "",
+     "cut": "",
+     "frame_en": "",
+     "composition_en": "",
+     "angle_en": "",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": ""
   }
- ]
+ ],
+ "logline": ""
 }

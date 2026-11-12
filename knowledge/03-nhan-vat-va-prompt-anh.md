@@ -1,65 +1,30 @@
-# Nhân vật & khối prompt chuẩn cho ảnh storyboard
+# Ảnh tham chiếu & cách prompt ảnh được lắp ghép
 
-Ảnh storyboard là **bản phác dự kiến quay**, không phải ảnh hiện trường. Mục tiêu: người quay nhìn vào hiểu ngay bố cục, cỡ cảnh, hướng sáng. Không cần đẹp như poster.
+Ảnh storyboard là **hình dự kiến quay**, không phải ảnh hiện trường. Chủ dự án tự tạo ảnh thủ công bằng ChatGPT hoặc Gemini từ **gói prompt** (`goi-prompt.html`) do hệ thống dựng. Chuẩn chi tiết: `06-rubric-storyboard.md`.
 
-## Khối cố định — dán nguyên văn vào mọi prompt (tiếng Anh để model ảnh hiểu tốt nhất)
+## Ảnh thật đi vào đâu
 
-```text
-STYLE: cinematic film still, natural light, 35mm film look, muted earth tones
-(indigo, moss green, red basalt soil, weathered wood, dry palm thatch), soft
-halation, shallow depth of field at f/4. 16:9. No text, no captions, no
-watermark, no borders. No plastic, no modern objects, no logos.
+| Ảnh | Thả vào | Dùng cho |
+|---|---|---|
+| Bối cảnh, đạo cụ, nhân vật của **một tập** | `episodes/epNN/input/boi-canh/`, `dao-cu/`, `nhan-vat/` | Visual bible của tập đó |
+| Thứ dùng cho **mọi tập** (hai chị em, mèo, căn chòi) | `knowledge/visual-refs/` | Mọi tập tham chiếu lại |
+| Ảnh chụp thực tế từng shot | `episodes/epNN/input/thuc-te/<ID shot>.jpg` | Thay hình dự kiến trên báo cáo |
+| Ảnh AI bạn đã tạo | `episodes/epNN/storyboard/<ID shot>.png` | Hình dự kiến trên báo cáo |
 
-SETTING: remote mountain valley in northern Vietnam at 1,200 m, misty,
-old plum orchard, terraced fields, bamboo forest, a small rough-sawn timber
-hut with a dry palm-leaf thatched roof, clay stove, black cast-iron pan,
-woven bamboo baskets, unglazed crackle ceramic.
+## Thứ tự ưu tiên của một khung hình
 
-OLDER SISTER (26): calm, strong build, hair wrapped in a plain cloth scarf,
-hand-woven indigo jacket or earth-brown quilted vest, dark raw-silk trousers.
+1. Ảnh thực tế của chính shot đó (không cần tạo ảnh AI nữa).
+2. Ảnh AI tạo từ prompt có đính kèm ảnh thật của người/nơi/vật.
+3. Ảnh AI chỉ từ mô tả chữ (khi chưa có ảnh thật nào) — báo cáo vẫn dùng được nhưng độ giống thấp.
+4. Chưa có hình: báo cáo vẫn đủ hướng dẫn quay bằng chữ.
 
-YOUNGER SISTER (23): gentle, slender, single side braid, chunky ecru
-knit sweater or brick-red quilted vest, raw linen apron.
+## Giới hạn của model ảnh
 
-CAT: short-haired ash-grey cat, copper-amber eyes.
-```
+- Mặt người không giống hệt giữa các lần tạo dù có ảnh tham chiếu; đủ cho storyboard. Làm trong **cùng một cuộc trò chuyện** cho mỗi tập thì ổn định hơn.
+- Model hay làm đẹp quá mức; `style` trong visual bible đã có "documentary realism, unposed". Vẫn quá bóng bẩy thì thêm vào `style`, đừng sửa từng prompt.
+- Không yêu cầu vẽ chữ hay số shot lên ảnh.
+- Một số dịch vụ từ chối tạo ảnh giống người thật từ ảnh tham chiếu. Khi đó bỏ ảnh nhân vật, giữ ảnh bối cảnh và đạo cụ; mô tả chữ trong prompt vẫn giữ trang phục đúng.
 
-Khi đã có ảnh thật trong `visual-refs/`, đính kèm làm ảnh tham chiếu và thêm dòng: `Match the people, hut and props to the attached reference photos.` Ảnh thật luôn thắng mô tả chữ.
+## Model sheet (tùy chọn, làm một lần)
 
-## Khuôn prompt atlas 2×2 (4 shot / 1 ảnh — tiết kiệm hạn mức)
-
-```text
-Create ONE image: a 2x2 grid of four 16:9 film stills, edge to edge, no
-gutters, no borders, no text. Same characters, costumes, location and time
-of day continuity across panels.
-
-[khối cố định ở trên]
-
-TOP-LEFT  (S03-SH01): <cỡ cảnh>, <tiêu cự tương đương>, <góc máy>. <hành động>. <ánh sáng>.
-TOP-RIGHT (S03-SH02): ...
-BOTTOM-LEFT (S03-SH03): ...
-BOTTOM-RIGHT (S03-SH04): ...
-```
-
-Quy ước ô (`panel` trong `shots.json`): `0` trên-trái, `1` trên-phải, `2` dưới-trái, `3` dưới-phải. Nhóm lẻ để trống ô cuối.
-
-## Dịch thông số máy sang ngôn ngữ ảnh
-
-| Trong shot list | Viết trong prompt |
-|---|---|
-| 18–24mm | wide shot, deep space, environment dominant |
-| 35mm | medium-wide, natural perspective |
-| 50mm | medium shot, waist-up or object with context |
-| 70–85mm | telephoto close-up, compressed background, soft bokeh |
-| 105mm macro/insert | extreme close-up detail, very shallow focus |
-| Top-down 90° | overhead flat-lay view straight down |
-| Low angle 35° | low angle looking up |
-| 06:30–08:30 | early morning mist, low sun rays through fog |
-| 16:30–17:30 | golden hour, warm side light raking across wood |
-| 17:30–18:30 | blue hour, cool ambient, warm firelight and filament bulbs |
-
-## Giới hạn cần biết
-
-- Model ảnh hay "làm đẹp" quá mức: thêm `documentary realism, unposed, working hands slightly dirty` khi cần.
-- Mặt nhân vật sẽ không giống hệt giữa các lần tạo. Chấp nhận ở mức storyboard; muốn ổn định hơn thì tạo một **model sheet** (xem `visual-refs/README.md`) và luôn đính kèm.
-- Không yêu cầu vẽ chữ, số shot lên ảnh. Số shot do production book ghi.
+Để ổn định hơn, tạo cho mỗi nhân vật một tấm nhiều góc rồi lưu vào `knowledge/visual-refs/sheet-<ai>.png` và thêm vào `refs` của nhân vật trong visual bible. Prompt: `Character reference sheet of this person: front, three-quarter, side and back view, full body, neutral grey background, same outfit, even soft light, photographic. No text.`

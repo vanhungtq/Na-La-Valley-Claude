@@ -1,0 +1,33 @@
+{
+ "_ghi_chu": "File mẫu cấu trúc. Thư mục bắt đầu bằng dấu gạch dưới không được tính là video mẫu.",
+ "id": "kenh-ten-ngan",
+ "title": "",
+ "channel": "",
+ "url": "",
+ "duration": "18:42",
+ "ngay_nap": "2026-11-12",
+ "tom_tat": "Một câu: video này làm ra cái gì, từ đâu đến đâu.",
+ "timeline": [
+  {"tc_in": "0:00", "tc_out": "0:25", "phan": "Hook", "noi_dung": "", "hinh_tieng": "", "nguon": "chu-du-an"}
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "tc": "0:05",
+   "image": "frames/001.jpg",
+   "co_canh": "Cận đặc tả",
+   "tieu_cu_uoc": "tele (~85mm FF)",
+   "goc_may": "Ngang tầm tay, chếch 30°",
+   "chuyen_dong": "Máy tĩnh",
+   "bo_cuc": "Chủ thể 1/3 phải, tiền cảnh lá mờ che 1/4 khung",
+   "anh_sang": "Ngược sáng mềm, nắng sớm",
+   "am_thanh": "",
+   "hanh_dong": "",
+   "vi_sao_hieu_qua": "",
+   "ap_dung_nala": "Làm được với 18-105 F4 ở 70mm, lùi 2,5 m",
+   "nguon": "da-xem-anh"
+  }
+ ],
+ "so_lieu": {"so_shot_uoc": null, "do_dai_shot_tb_giay": null, "ty_le_may_tinh": null, "ghi_chu": "Ghi rõ số nào đếm được, số nào ước lượng"},
+ "khong_sao_chep": ["Chi tiết chữ ký của kênh này cần tránh lặp lại"]
+}

@@ -11,7 +11,7 @@
    "location": "Vườn mận",
    "story_time": "Sáng sớm",
    "clock_slot": "06:30-08:30",
-   "beat": "",
+   "beat": "Hook",
    "sound": {
     "ambience": "Ve rừng xa, gió nhẹ",
     "foley": "Lá khô vỡ giòn lạo xạo",
@@ -42,9 +42,29 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Mở phim: chưa có ai, chỉ có đất và một dấu hiệu sự sống — rồi bước chân mèo báo có người đang đến.",
+     "composition": "Chồi mận ở 1/3 trái, nét căng; nền mùn mờ. Chân mèo đi ngang từ phải sang trái ở hậu cảnh mờ, ra khỏi khung bên trái.",
+     "light": "Nắng sớm ngược nhẹ viền chồi non, sương còn đọng.",
+     "direction": "Đặt máy sát đất trên túi đậu, cách chồi khoảng 1 m, zoom hết 105mm. Lấy nét tay vào chồi. Rải thức ăn dẫn mèo đi ngang phía sau; quay 3–4 lượt.",
+     "cut": "Cắt theo tiếng lá vỡ sang S02-SH01; hướng mèo đi (trái) nối hướng người đi.",
+     "frame_en": "A tiny plum seedling pushing up through dark rotting leaf litter, dew on its two leaves, sharp in the left third; behind it, completely out of focus, the hind leg of a grey cat stepping past.",
+     "composition_en": "Ground-level view, seedling on the left third in sharp focus, blurred cat leg crossing the right background.",
+     "angle_en": "15 cm above the ground, level with the seedling",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "vuon-man"
   },
   {
    "id": "S02",
@@ -52,7 +72,7 @@
    "location": "Rừng vầu Hồng Thái",
    "story_time": "Sáng sớm, sương",
    "clock_slot": "06:30-08:30",
-   "beat": "",
+   "beat": "Thiết lập",
    "sound": {
     "ambience": "Gió lùa kẽ trúc, suối xa",
     "foley": "Bước chân trên lá, quai gùi cọt kẹt",
@@ -87,9 +107,29 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Bước chân mèo dẫn tới chủ của nó: vì thế ta thấy hai chị em đang đi vào thung lũng.",
+     "composition": "Lối mòn chạy chéo từ góc dưới trái vào giữa khung. Hai chị em nhỏ ở 1/3 dưới, thân vầu thẳng đứng lấp đầy khung, sương làm mờ hậu cảnh.",
+     "light": "Tia nắng xiên qua sương từ phía trước bên phải (ngược sáng).",
+     "direction": "Máy trên chân ngang tầm mắt, 24mm, đứng cuối đoạn đường thẳng. Hai chị em đi từ xa lại gần rồi ra khỏi khung bên phải; không nhìn máy. Giữ khung thêm 5 giây sau khi người ra.",
+     "cut": "Cắt khi hai người vừa ra khung; S03 mở bằng khung trống rồi người bước vào từ trái.",
+     "frame_en": "Two young women with woven bamboo back-baskets walking away from camera along a narrow dirt path through a tall bamboo forest in morning mist, a grey cat trotting at their heels; they are small in the lower third.",
+     "composition_en": "Deep wide frame, path as a diagonal leading line, vertical bamboo stems filling the frame, figures small in the lower third.",
+     "angle_en": "eye level, on the path, looking down its length",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "rung-vau"
   },
   {
    "id": "S03",
@@ -97,7 +137,7 @@
    "location": "Hiên chòi",
    "story_time": "Sáng",
    "clock_slot": "08:30-11:00",
-   "beat": "",
+   "beat": "Thiết lập",
    "sound": {
     "ambience": "Chim hót lẻ loi",
     "foley": "Rựa cắm đất 'phập', gùi đặt xuống đá",
@@ -133,9 +173,29 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Con đường kết thúc ở đây: lần đầu ta thấy căn chòi và hiểu việc hôm nay là gì.",
+     "composition": "Chòi chính diện, cân đối, chiếm 2/3 khung. Chị đứng 1/3 trái quay lưng 3/4 về máy, Em ngồi thấp 1/3 phải cạnh bậu đá.",
+     "light": "Nắng sáng chếch từ trái, vách chòi xám mốc hiện rõ thớ.",
+     "direction": "Máy chính diện hiên, 35mm, cao ngang ngực, cách khoảng 6 m. Chị bước vào khung, cắm rựa xuống đất, đứng nhìn 4 giây. Em vào sau, đặt gùi, vuốt mèo. Đừng diễn cảm xúc; chỉ nhìn.",
+     "cut": "Cắt theo tiếng rựa cắm đất sang cận tay cầm bào (S04).",
+     "frame_en": "Seen from behind at three-quarter angle, the older sister stands with a machete planted in the ground, looking at a weathered grey timber hut with a sagging palm-thatch roof; the younger sister crouches at the right by a stone step, one hand on the grey cat's head, her basket beside her.",
+     "composition_en": "Symmetrical frontal view of the hut filling two thirds of the frame; older sister left third, younger sister low on the right third.",
+     "angle_en": "chest height, square-on to the porch, about 6 m back",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "hien-choi"
   },
   {
    "id": "S04",
@@ -143,7 +203,7 @@
    "location": "Vách chòi",
    "story_time": "Sáng",
    "clock_slot": "08:30-11:00",
-   "beat": "",
+   "beat": "Chế tác",
    "sound": {
     "ambience": "Gió núi, chim",
     "foley": "Lưỡi sắt miết thớ gỗ 'xoẹt', bụi gỗ rơi",
@@ -176,9 +236,31 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [
+      "bao-go"
+     ],
+     "technique": [],
+     "note": "",
+     "link": "Nhìn xong thì làm: việc đầu tiên là bào lớp gỗ mốc.",
+     "composition": "Chị ở 1/3 phải, đường bào chạy chéo về phía máy. Phoi bào bay vào vùng nắng ở 1/3 trái.",
+     "light": "Nắng xiên 45° từ sau lưng Chị làm phoi bào sáng lên.",
+     "direction": "Máy nghiêng 45° so với vách, 50mm, cao ngang tay bào. Bắt buộc gắn ND. Chị đẩy 6–8 đường bào dài liên tục; không dừng giữa chừng. Quay thêm một lượt 105mm cận tay và phoi (cặp match cut).",
+     "cut": "Cắt giữa một đường bào sang bản cận 105mm.",
+     "frame_en": "The older sister pushes a hand plane in a long stroke along an old vertical board of the hut wall; curls of pale golden wood shavings fly up and catch the backlight.",
+     "composition_en": "Subject on the right third, the plane stroke as a diagonal toward camera, glowing shavings in the left third.",
+     "angle_en": "45 degrees to the wall, at hand height",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "vach-choi"
   },
   {
    "id": "S05",
@@ -186,7 +268,7 @@
    "location": "Vách chòi",
    "story_time": "Chiều muộn",
    "clock_slot": "16:30-17:30",
-   "beat": "",
+   "beat": "Chế tác",
    "sound": {
     "ambience": "Gió chiều",
     "foley": "Lông cọ miết trên gỗ khô",
@@ -220,9 +302,29 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Gỗ đã sạch nên mới quét dầu được: phần thưởng thị giác của công bào.",
+     "composition": "Thớ gỗ chạy ngang khung. Vệt dầu tiến từ trái sang phải, ranh giới xám–hổ phách ở chính giữa.",
+     "light": "Nắng giờ vàng rọi ngang bề mặt, làm dầu bóng lên.",
+     "direction": "Máy vuông góc mặt gỗ, 105mm, cách 1 m. Em quét một vệt dài chậm từ trái sang phải, không nhấc cọ. Chuẩn bị 3 tấm ván đã bào để quay 3 lượt.",
+     "cut": "Cắt khi cọ ra khỏi khung phải.",
+     "frame_en": "A natural-bristle brush drags a wet stroke of tung oil across a dry grey plank; behind the brush the wood turns a deep glowing amber, in front of it the wood is still pale grey.",
+     "composition_en": "Wood grain horizontal; the brush at centre moving left to right, clear boundary between oiled amber and dry grey.",
+     "angle_en": "perpendicular to the wood surface, 1 m away",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "vach-choi"
   },
   {
    "id": "S06",
@@ -230,7 +332,7 @@
    "location": "Mái chòi",
    "story_time": "Chiều",
    "clock_slot": "14:00-16:30",
-   "beat": "",
+   "beat": "Chế tác",
    "sound": {
     "ambience": "Gió đồi",
     "foley": "Cuống cọ va tre 'soạt', gãy 'RẮC', kìm vặn kẽm",
@@ -265,6 +367,27 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [
+      "la-co"
+     ],
+     "technique": [],
+     "note": "",
+     "link": "Vách xong thì đến mái: việc lớn nhất, cần cả hai người.",
+     "composition": "Đường chéo từ tay Em (góc dưới trái) lên tay Chị (trên phải); tàu cọ xòe ở giữa, nền trời.",
+     "light": "Nắng chiều mềm từ bên trái; tránh để mặt trời lọt thẳng vào ống kính.",
+     "direction": "Máy đặt thấp dưới sân, 24mm, ngửa 35°. Em rướn người đưa tàu cọ, Chị cúi đón. Lặp 3 lần chuyền. AN TOÀN: giàn giáo phải được người có nghề kiểm tra; Chị bám một tay.",
+     "cut": "Cắt lúc hai tay chạm tàu cọ sang cận tay gập cuống (S06-SH02).",
+     "frame_en": "From below, the younger sister on the ground stretches up to pass a fan-shaped dry palm leaf to the older sister, who leans down from a bamboo scaffold at the edge of the roof to take it; open sky behind.",
+     "composition_en": "Strong diagonal from lower left hand to upper right hand, the fan palm leaf in the centre against the sky.",
+     "angle_en": "low on the ground, tilted up 35 degrees",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     },
     {
@@ -293,9 +416,31 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [
+      "la-co"
+     ],
+     "technique": [],
+     "note": "",
+     "link": "Tàu cọ đã lên mái: giờ xem nó được giữ lại bằng cách nào.",
+     "composition": "Hai bàn tay ở giữa khung, nan mè tre chạy ngang.",
+     "light": "Nắng chiều bên, đổ bóng rõ gân lá.",
+     "direction": "Máy trên chân đặt trên giàn hoặc quay từ thang đối diện, 105mm, cách 80 cm. Chị gập cuống một lần dứt khoát để lấy tiếng RẮC; quay 4 lá liên tiếp.",
+     "cut": "Cắt theo tiếng RẮC.",
+     "frame_en": "Two strong hands fold the thick stem of a dry palm leaf sharply over a horizontal bamboo batten on a roof frame; a pair of pliers and a twist of steel wire rest on the batten.",
+     "composition_en": "Hands centred, bamboo batten running horizontally across the frame.",
+     "angle_en": "80 cm from the hands, slightly above",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "mai-choi"
   },
   {
    "id": "S07",
@@ -303,7 +448,7 @@
    "location": "Bếp ngoài hiên",
    "story_time": "Chiều muộn",
    "clock_slot": "16:30-17:30",
-   "beat": "",
+   "beat": "Bếp",
    "sound": {
     "ambience": "Suối xa",
     "foley": "Dao chặt lún thớt nghiến, nước rửa nấm róc rách",
@@ -339,9 +484,29 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Mái đã kín: chuyển sang bếp, Em bắt đầu chuẩn bị bữa tối.",
+     "composition": "Thớt tròn chính giữa khung, tay vào từ cạnh dưới. Nấm bên trái, gà bên phải.",
+     "light": "Nắng giờ vàng xiên từ góc trên trái, bóng đổ dài trên thớt.",
+     "direction": "Máy treo thẳng đứng trên thớt (tay ngang chân máy, kiểm tra khóa chắc), 50mm. Em khía 3 đường trên một mũ nấm trọn vẹn, rồi chặt 3 nhát gà.",
+     "cut": "Cắt theo nhát dao sang chảo (S08).",
+     "frame_en": "Overhead view of a round dark hardwood chopping block: a young woman's hands score a star pattern into the cap of a fresh shiitake mushroom with a hand-forged knife; more mushrooms on the left, pieces of free-range chicken on the right.",
+     "composition_en": "Flat-lay, round block centred, hands entering from the bottom edge.",
+     "angle_en": "directly overhead, straight down",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "bep-hien"
   },
   {
    "id": "S08",
@@ -349,7 +514,7 @@
    "location": "Bếp củi",
    "story_time": "Chạng vạng",
    "clock_slot": "17:30-18:30",
-   "beat": "",
+   "beat": "Bếp",
    "sound": {
     "ambience": "Lửa củi reo",
     "foley": "Mỡ xèo dữ dội, muôi chạm chảo",
@@ -383,9 +548,31 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [
+      "chao-gang"
+     ],
+     "technique": [],
+     "note": "",
+     "link": "Nguyên liệu đã sẵn: lửa lên, đây là đỉnh âm thanh của tập.",
+     "composition": "Chảo ở 2/3 dưới khung, khói bốc lấp 1/3 trên, lửa lộ dưới đáy chảo.",
+     "light": "Ánh lửa là nguồn chính; trời giờ xanh làm nền lạnh.",
+     "direction": "Máy 70mm cách 2,5 m (tránh mỡ bắn), 60fps. Chị trút nguyên liệu một lần; sau đó rưới muôi mỡ. Chỉ quay được 1 lần thật — chuẩn bị 2 phần nguyên liệu.",
+     "cut": "Giữ đến khi khói tan bớt rồi cắt sang toàn cảnh hiên (S09).",
+     "frame_en": "Chicken pieces, pale sour bamboo shoots and star-cut mushrooms tumble into a smoking black cast-iron pan on a clay wood stove; flames lick up around the pan and a ladle of sizzling fat pours in.",
+     "composition_en": "Pan in the lower two thirds, smoke filling the top third, fire visible beneath.",
+     "angle_en": "slightly above pan level, 2.5 m back",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "bep-hien"
   },
   {
    "id": "S09",
@@ -393,7 +580,7 @@
    "location": "Hiên chòi",
    "story_time": "Giờ xanh",
    "clock_slot": "17:30-18:30",
-   "beat": "",
+   "beat": "Sum vầy",
    "sound": {
     "ambience": "Mưa rừng rả rích trên mái cọ",
     "foley": "Bát đũa lách cách",
@@ -430,9 +617,30 @@
       "level": "none",
       "image": null,
       "panel": null
+     },
+     "key": true,
+     "prop_ids": [],
+     "technique": [],
+     "note": "",
+     "link": "Món đã chín và mái đã kín: phần thưởng là bữa cơm dưới mái mới khi mưa xuống.",
+     "composition": "Hiên chòi là khung trong khung. Bàn ở giữa, hai chị em đối diện nhau, mèo ở góc dưới phải. Dây đèn chạy ngang 1/3 trên.",
+     "light": "Nền trời xanh thẫm; đèn sợi đốt và lửa bếp làm sáng ấm; COB tản sáng bù nhẹ mặt từ bên trái.",
+     "direction": "Máy 35mm cao ngang ngực, cách 5 m, trên trục chính diện hiên như S03 để khán giả so sánh trước–sau. Cửa sổ quay chỉ 15–20 phút: dựng bàn, đèn, lấy nét xong trước 17:30.",
+     "cut": "Kết tập: giữ 6 giây sau tiếng cười cuối rồi mờ dần tiếng.",
+     "frame_en": "At blue hour, the two sisters sit facing each other at a rough wooden table on the porch of the restored hut under a new palm-thatch roof, eating from a clay rice pot; a string of warm filament bulbs glows above, rain falls beyond the eaves, the grey cat eats a small fish beside the table.",
+     "composition_en": "The porch as a frame within the frame, table centred, string lights across the upper third, cat lower right.",
+     "angle_en": "chest height, square-on to the porch, same axis as the earlier establishing shot",
+     "real": {
+      "image": null,
+      "sha": null,
+      "verdict": null,
+      "note": "",
+      "alts": []
      }
     }
-   ]
+   ],
+   "location_id": "hien-choi"
   }
- ]
+ ],
+ "logline": "Hai chị em trở lại căn chòi gỗ bỏ hoang giữa thung lũng mận, bào lại vách, lợp lại mái cọ, và kịp nhóm bếp ăn bữa cơm đầu tiên khi mưa rừng đổ xuống mái mới."
 }

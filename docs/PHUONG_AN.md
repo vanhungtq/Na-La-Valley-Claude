@@ -1,107 +1,97 @@
 # Phương án hệ thống Agents cho Nà Lạ Valley
 
-Ngày nghiên cứu: 12/11/2026. Đã đọc: Project Bible của chủ dự án và toàn bộ repo `vanhungtq/valley-chibi-studio` (README, AGENTS.md, quy trình 5 vai trò, skill, hợp đồng dữ liệu, báo cáo OpenMontage).
+Cập nhật 12/11/2026 (bản 2). Đã đọc: Project Bible, repo `vanhungtq/valley-chibi-studio`, repo `0xsline/StoryGen-Atelier`, và mô tả quy trình thực tế của chủ dự án.
 
 ## 1. Kết luận
 
-**Lấy chính repo này làm xưởng, Claude Code làm bộ não, Codex CLI làm tay vẽ, Gemini làm mắt xem video.** Không dựng máy chủ, không dùng API.
+**Repo này là xưởng. Claude Code viết và điều phối. Chủ dự án cung cấp thực tế (ý tưởng, ảnh thật, ảnh từng shot) và tự tạo ảnh AI từ gói prompt. Mọi thứ hội tụ vào một file `bao-cao.html` được dựng lại sau mỗi vòng cho đến bản Final.**
 
 | Việc | Ai làm | Trả bằng gì |
 |---|---|---|
-| Định hướng, concept, kịch bản, shot list, âm thanh, rà soát, gói YouTube, điều phối | Claude Code (7 agent + 6 skill trong repo) | Gói Claude đang có |
-| Ảnh storyboard | Codex CLI, skill `$imagegen` có sẵn, đăng nhập ChatGPT | Gói ChatGPT Plus |
-| Xem và phân tích video mẫu trên YouTube | Ứng dụng Gemini (dán prompt, dán kết quả về) | Gói Gemini Pro |
-| Model sheet nhân vật, ảnh "hero" cần đẹp | Ứng dụng Gemini hoặc ChatGPT, làm tay | Hai gói trên |
-| Lưu trữ, lịch sử, đồng bộ giữa máy tính và điện thoại | Git/GitHub | Miễn phí |
+| Định hướng, concept, kịch bản, shot list, âm thanh, hướng dẫn quay, rà soát, gói YouTube | Claude Code: 7 agent, 9 lệnh | Gói Claude |
+| Xem ảnh bối cảnh/đạo cụ/nhân vật, ảnh cú máy mẫu, ảnh thực tế từng shot và nhận xét | Claude (xem ảnh trực tiếp) | Gói Claude |
+| Tạo ảnh storyboard | **Chủ dự án, thủ công**, từ `goi-prompt.html` | Gói ChatGPT Plus / Gemini Pro |
+| Xem video YouTube để lấy timeline | Ứng dụng Gemini (dán prompt, dán kết quả) | Gói Gemini Pro |
+| Lưu trữ, lịch sử phiên bản | Git/GitHub | Miễn phí |
 
-## 2. Xưởng Chibi đã làm được gì, và vì sao không dựng tiếp trên đó
+Không máy chủ, không Cloudflare, không API. Dashboard là một file HTML tĩnh dựng từ trạng thái trong repo.
 
-Xưởng Chibi là một phòng điều khiển trên Cloudflare (giao diện 3D, D1/KV, OAuth GitHub, MCP) để **Codex** làm nội dung. Những gì nên giữ và đã mang sang đây:
+## 2. Học gì từ StoryGen-Atelier
 
-- Năm trách nhiệm chuyên môn và thứ tự định hướng → concept → kịch bản → shot list → hồ sơ.
-- Kỷ luật nguồn: tách điều đã xem, lời chủ dự án, giả định; ảnh AI không phải ảnh hiện trường.
-- Ràng buộc thời lượng ±5%, giữ ID cảnh/shot, atlas storyboard 2×2 để tiết kiệm lượt tạo ảnh.
-- Cổng duyệt của chủ dự án giữa các bước.
+StoryGen-Atelier là ứng dụng React + Express gọi **API có khóa** của Gemini (văn bản, ảnh) và Vertex Veo (video) để biến một câu thành storyboard rồi thành video AI. Phần hạ tầng không dùng được cho dự án này (cần API tính phí; kênh quay thật nên không cần sinh video). Phần **cách giữ storyboard nhất quán** thì đáng lấy:
 
-Những giới hạn của nó khi chuyển sang Claude:
+| Cơ chế của StoryGen-Atelier | Trong mã của họ | Áp dụng ở đây |
+|---|---|---|
+| **heroSubject**: mô tả chi tiết nhân vật chính, sinh một lần ở shot 1 rồi gắn vào đầu mọi prompt | `llmService.js`, `imageGenService.js` | `visual-bible.json`: mô tả cố định cho từng nhân vật, **từng bối cảnh, từng đạo cụ**, viết từ ảnh thật. Script gắn vào mọi prompt |
+| **Ảnh tham chiếu**: ảnh shot 1 được gửi kèm mọi shot sau | `storyboardController.js` | Gói prompt liệt kê ảnh **thật** cần đính kèm cho từng shot, cộng ảnh khung trước cùng cảnh nếu đã có |
+| **previousStyleHint**: prompt nhắc phong cách shot trước | `buildImagePrompt` | Dòng `CONTINUITY` tự sinh: cùng nơi, cùng trang phục, cùng ánh sáng với khung trước |
+| **Một khối style chung** cho mọi khung | `BASE_IMAGE_STYLE` | `style` và `negative` trong visual bible |
+| **Nhân quả bắt buộc**: mỗi shot phải nói vì sao nó đến sau shot trước ("因此/于是/紧接着") | prompt của `generatePrompts` | Trường `link` bắt buộc cho mọi shot; không viết nổi thì shot thừa |
+| **Nhịp 25/50/25** mở–giữa–kết | prompt của `generatePrompts` | Beat map trong kịch bản, hiện thành dòng thời gian trên báo cáo |
+| **Cấu trúc prompt** chủ thể / hành động / bối cảnh / máy / phong cách | `VideoGenerationPromptGuide.md` | Khung lắp ghép cố định trong `build_prompt_pack.py` |
+| **Phân tích chuyển cảnh A→B** bằng cách xem hai khung | `analyzeShotTransition` | Trường `cut` của Quay phim; Giám sát xem các ảnh thật liền nhau để kiểm liên tục |
+| Tạo lại từng shot, nhật ký, thư viện ảnh | regenerate, logs, gallery | Sửa dữ liệu một shot rồi dựng lại; `status.json` + dashboard; lịch sử phiên bản trên báo cáo |
 
-| Giới hạn ở Xưởng Chibi | Ở repo này |
-|---|---|
-| Rà soát là **tự rà soát** của cùng một phiên Codex | Agent `giam-sat` chạy ở ngữ cảnh riêng, chỉ thấy file, không thấy lập luận của người viết |
-| Năm vai trò chạy nối tiếp trong một phiên | Agent chạy ngữ cảnh riêng; storyboard và gói YouTube chạy song song |
-| File nộp qua MCP ≤ 1 MB, đọc ≤ 5 MB, lease 15 phút, phải báo tiến độ để giữ việc | File nằm thẳng trong git, không giới hạn kiểu đó |
-| Chọn tài liệu bằng từ khóa, tối đa 16 file | Agent tự đọc/grep cả thư viện; skill chỉ nạp khi cần |
-| Kiểm tra máy móc chỉ có cấu trúc và thời lượng | Thêm kiểm tra theo Bible: dải 18–105 mm, F4, fps, 85% khóa máy, cặp hai tiêu cự, lịch ánh sáng, ba tầng âm thanh |
-| Cần duy trì Worker, D1, KV, OAuth App | Không có hạ tầng nào để duy trì |
-| Chưa có vai trò YouTube/quốc tế hóa, âm thanh, quản lý tri thức (báo cáo OpenMontage đề xuất) | Có `chien-luoc-youtube`, `am-thanh`, `thu-thu` |
+Khác biệt cố ý: ở đó LLM viết tự do từng prompt nên dễ trôi; ở đây **prompt được lắp ghép bằng script từ dữ liệu**, agent chỉ chăm dữ liệu (`desc_en`, `frame_en`). Sửa một chỗ, mọi khung đổi theo.
 
-Thứ mất đi: giao diện chibi 3D và trang web xem tiến độ. Thay bằng `production-book.html` và việc đọc file trên GitHub. Nếu sau này muốn giữ giao diện đó, MCP của Xưởng là MCP từ xa chuẩn (OAuth 2.1) nên về nguyên tắc Claude Code kết nối được và nhận việc thay Codex; tôi **chưa thử** và không khuyến nghị làm trước khi quay xong vài tập.
+## 3. Nâng chất lượng kịch bản và storyboard bằng cách nào
 
-## 3. Kiến trúc
+1. **Bám ảnh thật.** Biên kịch, Quay phim, Họa sĩ đều phải mở xem ảnh đầu vào trước khi viết và liệt kê ảnh đã xem.
+2. **Thang chấm có bằng chứng.** Kịch bản: 10 tiêu chí × 0–2, phải dẫn ID shot (`05-rubric-kich-ban.md`); dưới 15/20 thì quay lại. Storyboard: mỗi shot chủ chốt đủ `link`, `composition`, `light`, `direction`, `cut`, `frame_en` (`06-rubric-storyboard.md`); thiếu là validator báo lỗi.
+3. **Chấm độc lập.** `giam-sat` chạy ở ngữ cảnh riêng, chấm lại từ đầu, không tin điểm tự chấm.
+4. **Hướng dẫn quay viết cho người cầm máy.** `direction` là lệnh đo được: máy đặt đâu, cao bao nhiêu, cách bao xa, mấy lượt.
+5. **Vòng phản hồi bằng ảnh thực tế.** Quay phim xem từng ảnh bạn chụp, chấm đạt / cần chỉnh / quay lại kèm lệnh sửa đo được; hiện trường khác kế hoạch thì kế hoạch đổi theo hiện trường.
+6. **Thư viện nuôi agent.** Video mẫu → thẻ kỹ thuật có bằng chứng → sổ tay từng agent. Lỗi chủ dự án sửa cũng thành bài học trong sổ tay.
+
+## 4. Kiến trúc
 
 ```
-Chủ dự án
-   │  /tap-moi 02 "mận ngâm đầu mùa"
-   ▼
-Phiên chính = SHOWRUNNER (định hướng, 3 concept, điều phối, hỏi chủ dự án)
-   │
-   ├─ thu-thu ............ nghiên cứu mùa vụ/kỹ thuật, nhập phân tích video mẫu
-   ├─ bien-kich .......... beat map + kịch bản + khung shots.json
-   ├─ giam-sat ........... rà soát độc lập sau mỗi bước (chỉ viết review)
-   ├─ quay-phim .......... thông số máy, cặp match cut, thứ tự quay, continuity
-   ├─ am-thanh ........... 3 tầng âm, danh sách foley, bản đồ nhạc
-   ├─ hoa-si-storyboard .. prompt atlas 2×2 → Codex $imagegen / SVG / dán tay
-   └─ chien-luoc-youtube . tiêu đề EN, thumbnail, chapters, phụ đề, Micro Cut
-   │
-   ▼
-episodes/epNN/  (shots.json là nguồn sự thật) ──► validate ──► production-book.html
+        knowledge/inbox ──/nap-thu-vien──► video-mau/ ──/hoc-tu-thu-vien──► ky-thuat/ ──► so-tay/<agent>
+                                                                                              │ (agent đọc trước khi viết)
+ input/y-tuong.md + ảnh thật                                                                  ▼
+        │  /tap-moi                SHOWRUNNER (phiên chính: định hướng, 3 concept, điều phối, 3 cổng duyệt)
+        ▼                            ├ thu-thu ─ bien-kich ─ giam-sat
+ shots.json + visual-bible.json ◄────┼ quay-phim ─ am-thanh ─ giam-sat
+        │                            └ hoa-si-storyboard ∥ chien-luoc-youtube
+        ├─ build_prompt_pack ─► goi-prompt.html ─► bạn tạo ảnh ─► storyboard/<ID>.png ─┐
+        ├─ bạn chụp thực tế ─► input/thuc-te/<ID>.jpg ─────────────────────────────────┤
+        │  /cap-nhat: sync_inputs → quay-phim nhận xét → (bien-kich chỉnh) → giam-sat  ◄┘
+        └─ build_report ─► bao-cao.html  v1 → v2 → … → FINAL
+ progress.py ghi status.json ─► dashboard.html
 ```
 
-Ba cổng duyệt: chọn concept → duyệt kịch bản → duyệt shot list. Sau cổng 3 mới tốn hạn mức tạo ảnh.
+**Thư viện kiến thức** (`knowledge/`): bạn thả vào `inbox/` video mẫu (văn bản, timeline, ảnh từng cú máy) hoặc tài liệu. Thủ thư **xem từng ảnh** và lập `reference.json` có nhãn nguồn cho từng cú máy. `/hoc-tu-thu-vien` rút thành thẻ kỹ thuật, bạn duyệt, rồi ghi vào sổ tay agent. Khi sổ tay không đủ, lệnh đó *đề xuất* skill mới hoặc đoạn sửa agent/rubric/validator và chờ bạn đồng ý.
 
-**Thư viện kiến thức** (`knowledge/`): Bible nguyên văn; nguyên tắc kể chuyện không lời; ràng buộc thiết bị dạng JSON cho script đọc; khối prompt nhân vật cố định; đóng gói YouTube quốc tế; `references/` cho phân tích video mẫu; `visual-refs/` cho ảnh thật; `chu-de/` cho nghiên cứu có nguồn. Hai file nguyên tắc (01, 04) là tổng hợp ban đầu của Claude, **chưa đối chiếu video thật hay số liệu kênh** — chúng có mục "bài học" để sửa dần.
+**Dashboard** (`dashboard.html`): 9 bước của mỗi tập, 8 thẻ agent (đang làm / xong / bị chặn + việc đang làm), câu đang chờ bạn quyết, nhật ký, thanh tiến độ ảnh thực tế, số liệu thư viện. Nó hiển thị đúng những gì được ghi bằng `progress.py`; nếu một bước quên ghi thì dashboard thiếu bước đó.
 
-## 4. Tạo ảnh không dùng API — điều đã kiểm chứng và chưa
+**Báo cáo** (`bao-cao.html`): tiến độ và dòng thời gian dựng · kịch bản · storyboard (hình dự kiến cạnh ảnh thực tế, thông số, hướng dẫn quay, nhận xét, lọc theo trạng thái) · lịch quay theo ánh sáng, đạo cụ · âm thanh · việc tiếp theo · lịch sử phiên bản. `--embed` cho ra một file duy nhất.
 
-| Đường | Tình trạng | Ghi chú |
+## 5. So với Xưởng Chibi
+
+Giữ: thứ tự vai trò, kỷ luật nguồn (đã xem / chủ dự án nói / giả định), thời lượng ±5%, ID ổn định, cổng duyệt. Bỏ: Cloudflare Worker/D1/KV/OAuth, giao diện 3D, giới hạn file 1 MB qua MCP, cơ chế lease 15 phút. Thêm: rà soát độc lập, kiểm tra theo Bible bằng script, âm thanh, YouTube quốc tế, thư viện có bằng chứng, vòng ảnh thực tế.
+
+## 6. Giới hạn cần biết
+
+- **Chưa chạy trọn một tập thật.** Script đã chạy thử với ảnh giả lập; các agent và lệnh chưa. Tập đầu là phép thử; dự kiến phải chỉnh agent sau lần đầu.
+- **Claude không xem video.** Thư viện mạnh đến đâu tùy vào ảnh cú máy bạn chụp màn hình; chuyển động máy, âm thanh, nhịp cắt chỉ có khi bạn hoặc Gemini ghi lại.
+- **Ảnh AI không giống hệt người thật** dù có ảnh tham chiếu, và một số dịch vụ từ chối dựng người thật từ ảnh. Đủ cho storyboard; ảnh thực tế mới là đích.
+- **Repo sẽ nặng dần vì ảnh.** Thu nhỏ ảnh còn cạnh dài ~1600 px trước khi thả vào. Ảnh người thật: chỉ đưa vào khi repo private và người trong ảnh đồng ý.
+- **Rà soát của `giam-sat` không thay khảo sát thực địa.**
+- Hai file nguyên tắc `01` và `04` là tổng hợp ban đầu của Claude, chưa đối chiếu video thật hay số liệu kênh.
+
+## 7. Lộ trình
+
+| Đợt | Việc | Xong khi |
 |---|---|---|
-| **Codex CLI `$imagegen`** gọi từ Claude Code qua `codex exec` | Nhiều dự án cộng đồng xác nhận chạy bằng đăng nhập ChatGPT Plus, không cần API key. **Tôi chưa chạy thử được** (phiên cloud không có Codex) và không mở được tài liệu chính thức của OpenAI (trang bị chặn trong phiên này) | Mỗi ảnh 1–4 phút; tốn hạn mức gấp khoảng 3–5 lần lượt thường (số của một dự án cộng đồng). Có báo cáo lỗi hết hạn mức ảnh trên Plus dù hạn mức chung còn. Đặt `OPENAI_API_KEY` sẽ chuyển sang tính tiền API → script chặn sẵn |
-| **Dán tay vào ChatGPT / Gemini** | Chắc chắn dùng được | Hệ thống xuất sẵn file prompt từng atlas; chậm hơn nhưng không phụ thuộc CLI |
-| **SVG do Claude vẽ** | Chắc chắn dùng được | Sơ đồ bố cục, không phải ảnh; không tốn gì |
-| Gemini CLI + tiện ích Nano Banana | **Loại** | Tiện ích yêu cầu `NANOBANANA_API_KEY` (API tính phí). Không tìm thấy đường nào dùng gói Gemini Pro để tạo ảnh từ dòng lệnh |
-| Codex làm MCP server cho Claude | Không cần | Gọi `codex exec` bằng một script 50 dòng đơn giản hơn và dễ sửa hơn cài MCP |
-
-Vì hạn mức Plus có hạn, hệ thống mặc định chỉ tạo ảnh cho **shot chủ chốt** (mỗi setup máy một hình + shot Micro Cut + ứng viên thumbnail): tập 20 phút khoảng 40–60 hình = 10–15 atlas, thay vì 150+ shot.
-
-**Vai trò thật của Gemini** không phải vẽ storyboard tự động mà là thứ Claude không làm được: **xem video YouTube**. `/phan-tich-reference` tạo prompt để Gemini xem một tập của Lý Tử Thất/Điền Tây Tiểu Ca và trả bảng timecode; `thu-thu` chuẩn hóa vào thư viện. Đây là cách biến "style Lý Tử Thất" từ cảm nhận thành dữ liệu.
-
-## 5. Chạy ở đâu
-
-| Nơi | Viết kịch bản, shot list, rà soát | Tạo ảnh tự động |
-|---|---|---|
-| Claude Code trên máy tính (CLI/desktop) đã cài Codex | Có | Có |
-| Claude Code trên web/điện thoại | Có | Không — dùng đường dán tay hoặc SVG |
-
-## 6. Lộ trình
-
-| Đợt | Việc | Tiêu chí xong |
-|---|---|---|
-| **0 — đã làm** | Thư viện, 7 agent, 6 skill, 3 script, tập 1 hạt giống | Validator và production book chạy được trên dữ liệu tập 1 |
-| **1 — tuần này** | Trả lời câu hỏi trong `episodes/ep01/brief.md`; chạy `/tap-moi 01`; thử `scripts/codex_imagegen.sh` với một atlas | Có kịch bản 22 phút qua validator; biết chắc đường Codex chạy hay phải dán tay |
-| **2** | 5–8 phân tích video mẫu qua `/phan-tich-reference`; ảnh khảo sát chòi và model sheet vào `visual-refs/` | Agent viết có dẫn reference; storyboard giống hiện trường |
-| **3 — sau khi quay tập 1** | Ghi "bài học thực địa" vào thư viện; chỉnh agent theo chỗ kịch bản lệch thực tế | Tập 2 ít [GIẢ ĐỊNH] hơn tập 1 |
-| **4 — khi cần** | Lịch nội dung theo mùa (12 tập), animatic từ storyboard, nối lại giao diện Xưởng Chibi qua MCP | Chỉ làm khi 3 tập đầu đã lên sóng |
-
-## 7. Rủi ro
-
-- **Chất lượng chưa được chứng minh.** Các agent mới được viết, chưa chạy trọn một tập. Tập 1 là phép thử; dự kiến phải chỉnh prompt agent sau lần chạy đầu.
-- **Đường Codex có thể đổi.** Không có cam kết ổn định cho `$imagegen` qua CLI; đường dán tay là phương án dự phòng luôn sẵn.
-- **Rà soát của `giam-sat` không thay khảo sát thực địa.** Nó bắt lỗi logic trên giấy; mái chòi thật chịu được ai đứng lên thì chỉ người ở đó biết.
-- **Ảnh người thật trong repo.** Chỉ đưa vào khi repo để private và người trong ảnh đồng ý.
+| Đã làm | Thư viện + inbox, 7 agent, 9 lệnh, 5 script, rubric, dashboard, báo cáo, Tập 1 hạt giống | Chuỗi script chạy được với ảnh giả lập |
+| 1 | Thả ảnh chòi/đạo cụ/nhân vật vào `episodes/ep01/input/`, trả lời `input/y-tuong.md`, chạy `/tap-moi 01` | Có báo cáo v1 với kịch bản 22 phút đạt ≥ 15/20 |
+| 2 | Thả 3–5 video mẫu vào `knowledge/inbox/`, chạy `/nap-thu-vien` rồi `/hoc-tu-thu-vien` | Có thẻ kỹ thuật đã duyệt; sổ tay agent có nội dung |
+| 3 | Chụp thực tế, `/cap-nhat 01` nhiều vòng | Bản FINAL Tập 1 |
+| 4 | Sau khi quay: ghi bài học thực địa; chỉnh agent theo chỗ lệch | Tập 2 ít [GIẢ ĐỊNH] hơn Tập 1 |
 
 ## Nguồn
 
-- Repo đối chiếu: https://github.com/vanhungtq/valley-chibi-studio
-- Codex `$imagegen` qua đăng nhập ChatGPT (dự án cộng đồng): https://github.com/Sateezg/codex-bridge · https://github.com/jdmnk/codex-imagegen-cli · https://github.com/leeguooooo/image-use/
-- Báo cáo lỗi hạn mức ảnh trên Plus: https://github.com/openai/codex/issues/49214
+- https://github.com/vanhungtq/valley-chibi-studio
+- https://github.com/0xsline/StoryGen-Atelier (đọc tại commit `033e0c6`: `backend/src/services/llmService.js`, `imageGenService.js`, `controllers/storyboardController.js`, `guide/VideoGenerationPromptGuide.md`)
+- Codex `$imagegen` qua đăng nhập ChatGPT (tùy chọn, chưa thử): https://github.com/Sateezg/codex-bridge
 - Tiện ích Nano Banana của Gemini CLI cần API key: https://github.com/gemini-cli-extensions/nanobanana

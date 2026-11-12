@@ -1,6 +1,6 @@
 # Nguyên tắc kể chuyện — phim điền viên không lời
 
-> Đây là **nguyên tắc khởi điểm** do Claude tổng hợp từ hiểu biết chung về thể loại (Lý Tử Thất, Điền Tây Tiểu Ca), chưa đối chiếu từng khung hình. Khi có phân tích trong `references/`, số liệu ở đó được ưu tiên hơn file này.
+> Đây là **nguyên tắc khởi điểm** do Claude tổng hợp từ hiểu biết chung về thể loại (Lý Tử Thất, Điền Tây Tiểu Ca), chưa đối chiếu từng khung hình. Khi có phân tích trong `video-mau/` và thẻ trong `ky-thuat/`, số liệu ở đó được ưu tiên hơn file này.
 
 ## 1. Mỗi tập là một lời hứa và một lần trả
 

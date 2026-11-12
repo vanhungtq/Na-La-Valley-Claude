@@ -1,0 +1,74 @@
+{
+ "_ghi_chu": "Mô tả dưới đây chép từ Project Bible, CHƯA dựa trên ảnh thật [GIẢ ĐỊNH]. Khi có ảnh trong input/ hoặc knowledge/visual-refs/, Họa sĩ storyboard xem ảnh, viết lại desc_en cho đúng người và vật thật, và điền refs.",
+ "style": "Photorealistic cinematic film still, documentary realism, unposed, working hands slightly dirty. Natural light, 35mm film look, muted earth tones (indigo, moss green, red basalt soil, weathered wood, dry palm thatch), gentle film grain, soft halation on highlights. Aspect ratio 16:9.",
+ "negative": "No text, no captions, no watermark, no borders, no split panels. No plastic, no modern objects, no logos, no glossy studio look. Hands and tools anatomically correct.",
+ "subjects": {
+  "chi": {
+   "name": "Người Chị",
+   "name_en": "older sister",
+   "desc_en": "Vietnamese woman, 26, calm and strong build, hair wrapped in a plain cloth scarf, hand-woven indigo jacket, dark raw-silk trousers.",
+   "refs": []
+  },
+  "em": {
+   "name": "Người Em",
+   "name_en": "younger sister",
+   "desc_en": "Vietnamese woman, 23, slender, long hair in a single side braid, chunky ecru knit sweater, raw linen apron.",
+   "refs": []
+  },
+  "meo": {
+   "name": "Mèo Xám",
+   "name_en": "grey cat",
+   "desc_en": "Short-haired ash-grey cat, about two years old, copper-amber eyes.",
+   "refs": []
+  }
+ },
+ "locations": {
+  "vuon-man": {
+   "name": "Vườn mận",
+   "desc_en": "Old plum orchard on a misty mountain slope at 1,200 m in northern Vietnam, dark leaf litter on red basalt soil.",
+   "refs": []
+  },
+  "rung-vau": {
+   "name": "Rừng vầu",
+   "desc_en": "Dense tall bamboo forest with a narrow dirt footpath, morning mist between the stems.",
+   "refs": []
+  },
+  "hien-choi": {
+   "name": "Hiên chòi",
+   "desc_en": "Front porch of a small rough-sawn timber hut with a palm-leaf thatched roof, stone step, packed earth yard, plum trees and mountains behind.",
+   "refs": []
+  },
+  "vach-choi": {
+   "name": "Vách chòi",
+   "desc_en": "Exterior wall of the timber hut made of old vertical boards, weathered grey with patches of mould.",
+   "refs": []
+  },
+  "mai-choi": {
+   "name": "Mái chòi",
+   "desc_en": "Roof frame of the hut with bamboo battens, a bamboo scaffold at the eaves, bundles of dry fan-palm leaves.",
+   "refs": []
+  },
+  "bep-hien": {
+   "name": "Bếp ngoài hiên",
+   "desc_en": "Open-air kitchen corner by the porch: a fired-clay wood stove, stacked firewood, woven bamboo baskets, unglazed crackle ceramic bowls.",
+   "refs": []
+  }
+ },
+ "props": {
+  "chao-gang": {
+   "name": "Chảo gang",
+   "desc_en": "heavy black cast-iron pan, well seasoned",
+   "refs": []
+  },
+  "la-co": {
+   "name": "Lá cọ",
+   "desc_en": "large dry fan-palm leaves with thick stems, pale straw colour",
+   "refs": []
+  },
+  "bao-go": {
+   "name": "Bào gỗ",
+   "desc_en": "traditional wooden hand plane with a steel blade",
+   "refs": []
+  }
+ }
+}

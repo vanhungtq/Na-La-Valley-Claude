@@ -1,6 +1,6 @@
-# Brief tập 01 — Đánh thức chòi cũ: lợp mái cọ & bếp ấm đêm giờ xanh
+# Ý tưởng thô — tập 01 — Đánh thức chòi cũ: lợp mái cọ & bếp ấm đêm giờ xanh
 
-> Nguồn: Project Bible mục 6 [CHỦ DỰ ÁN]. `shots.json` hiện là **bản hạt giống 10 shot** chép từ bảng phân cảnh trong Bible (76 giây), chưa phải kịch bản 22 phút. Chạy `/tap-moi 01` để phát triển đầy đủ.
+> Nguồn: Project Bible mục 6 [CHỦ DỰ ÁN]. `shots.json` hiện là **bản hạt giống 10 shot** chép từ bảng phân cảnh trong Bible (76 giây), chưa phải kịch bản 22 phút. Chạy `/tap-moi 01` để phát triển đầy đủ. Thả ảnh chòi, đạo cụ, nhân vật vào các thư mục `input/` cạnh file này trước khi chạy thì kịch bản sẽ bám hiện trường.
 
 - **Món chính của tập:** căn chòi gỗ cũ được làm sống lại — bào vách, quét dầu trẩu, lợp mái cọ.
 - **Thời lượng mục tiêu:** 22 phút (bản đầy đủ) · 58 giây (Micro Cut)
@@ -13,4 +13,4 @@
 - Số buổi quay? Lợp mái cọ thật mất bao lâu, ai là người có nghề lợp?
 - Hiện trạng chòi thật: kích thước, mái hiện tại, giàn giáo an toàn?
 - Lịch trong Bible đặt lợp mái (14:00) trước quét dầu (16:30) nhưng bảng phân cảnh quét dầu (cảnh 05) trước lợp mái (cảnh 06) — thứ tự kể chuyện mong muốn là gì?
-- Ảnh hiện trường: chưa có file nào trong `knowledge/visual-refs/`.
+- Ảnh hiện trường: chưa có file nào trong `input/boi-canh/`, `input/dao-cu/`, `input/nhan-vat/`.

@@ -1,0 +1,18 @@
+{
+ "revision": 0,
+ "final": false,
+ "stages": {
+  "y-tuong": "working"
+ },
+ "agents": {},
+ "gate": "",
+ "log": [
+  {
+   "at": "2026-11-12 02:39",
+   "who": "showrunner",
+   "state": "stage",
+   "msg": "Ý tưởng & ảnh đầu vào → Đang làm: Bản hạt giống từ Bible; chờ ảnh thật và câu trả lời trong input/y-tuong.md"
+  }
+ ],
+ "revisions": []
+}

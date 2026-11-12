@@ -1,35 +1,30 @@
 #!/usr/bin/env python3
-"""Kiểm tra shots.json của một tập theo ràng buộc trong Project Bible.
+"""Kiểm tra shots.json của một tập theo ràng buộc trong Project Bible và chuẩn storyboard.
 
 Dùng:  python3 scripts/validate_episode.py episodes/ep01 [--draft]
---draft: lệch thời lượng chỉ là cảnh báo (dùng khi kịch bản chưa viết xong).
-Thoát mã 1 nếu có LỖI. Chỉ dùng thư viện chuẩn.
+--draft: lệch thời lượng và thiếu trường storyboard chỉ là cảnh báo.
+Thoát mã 1 nếu có LỖI.
 """
-import json
 import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-RULES = json.loads((ROOT / "knowledge/02-thiet-bi-va-rang-buoc.json").read_text(encoding="utf-8"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from nala import RULES, VERDICTS, all_shots, coverage, load_ep, read_json, resolve
+
 SHOT_ID = re.compile(r"^(S\d{2})-SH\d{2}$")
 SCENE_ID = re.compile(r"^S\d{2}$")
-
-
-def load(ep_dir):
-    return json.loads((Path(ep_dir) / "shots.json").read_text(encoding="utf-8"))
-
-
-def all_shots(data):
-    return [(sc, sh) for sc in data.get("scenes", []) for sh in sc.get("shots", [])]
+# Trường làm nên chất lượng storyboard: thiếu ở shot chủ chốt là LỖI, ở shot thường là cảnh báo gộp.
+BOARD_FIELDS = {"link": "lý do tiếp nối shot trước", "composition": "bố cục", "light": "ánh sáng",
+                "direction": "hướng dẫn quay", "frame_en": "mô tả khung hình cho prompt ảnh"}
 
 
 def validate(ep_dir, draft=False):
     ep_dir = Path(ep_dir)
-    data = load(ep_dir)
+    data = load_ep(ep_dir)
+    vb = read_json(ep_dir / "visual-bible.json", {}) or {}
     cam, gram, dur = RULES["camera"], RULES["grammar"], RULES["duration"]
-    errors, warns = [], []
-    seen = set()
+    errors, warns, seen = [], [], set()
 
     target = data.get("target_seconds")
     if not isinstance(target, (int, float)) or target <= 0:
@@ -47,6 +42,8 @@ def validate(ep_dir, draft=False):
         seen.add(sid)
         if sc.get("clock_slot") not in RULES["clock_slots"]:
             errors.append(f"{sid}: clock_slot '{sc.get('clock_slot')}' không thuộc lịch ánh sáng của Bible")
+        if sc.get("location_id") and sc["location_id"] not in (vb.get("locations") or {}):
+            errors.append(f"{sid}: location_id '{sc['location_id']}' chưa có trong visual-bible.json")
         sound = sc.get("sound") or {}
         for layer in ("ambience", "foley"):
             if not str(sound.get(layer, "")).strip():
@@ -63,6 +60,7 @@ def validate(ep_dir, draft=False):
     shots = all_shots(data)
     ids = {sh.get("id") for _, sh in shots}
     total = micro = locked = 0
+    missing = {f: [] for f in BOARD_FIELDS}
     for sc, sh in shots:
         i = sh.get("id", "?")
         m = SHOT_ID.match(str(i))
@@ -96,19 +94,32 @@ def validate(ep_dir, draft=False):
         for c in sh.get("characters", []):
             if c not in RULES["characters"]:
                 errors.append(f"{i}: nhân vật '{c}' không có trong Bible ({', '.join(RULES['characters'])})")
+        for p in sh.get("prop_ids", []):
+            if p not in (vb.get("props") or {}):
+                errors.append(f"{i}: prop_ids '{p}' chưa có trong visual-bible.json")
         if sh.get("pair") and sh["pair"] not in ids:
             warns.append(f"{i}: pair '{sh['pair']}' không tồn tại")
+
+        for field in BOARD_FIELDS:
+            if not str(sh.get(field, "")).strip():
+                missing[field].append((i, bool(sh.get("key"))))
 
         sb = sh.get("storyboard") or {}
         level = sb.get("level", "none")
         if level not in RULES["storyboard_levels"]:
             errors.append(f"{i}: storyboard.level='{level}' không hợp lệ")
         elif level != "none":
-            img = sb.get("image")
-            if not img or not (ep_dir / img).is_file():
-                errors.append(f"{i}: storyboard ghi '{level}' nhưng không thấy file '{img}'")
+            if not resolve(ep_dir, sb.get("image")):
+                errors.append(f"{i}: storyboard ghi '{level}' nhưng không thấy file '{sb.get('image')}'")
             if sb.get("panel") not in (None, 0, 1, 2, 3):
                 errors.append(f"{i}: storyboard.panel phải là 0–3 hoặc null")
+        real = sh.get("real") or {}
+        if real.get("image") and not resolve(ep_dir, real["image"]):
+            errors.append(f"{i}: real.image '{real['image']}' không tồn tại")
+        if real.get("verdict") not in (None, *VERDICTS):
+            errors.append(f"{i}: real.verdict phải là một trong {list(VERDICTS)} hoặc null")
+        if real.get("verdict") in ("chinh", "quay-lai") and not str(real.get("note", "")).strip():
+            errors.append(f"{i}: real.verdict='{real['verdict']}' phải kèm real.note nói rõ cần sửa gì")
 
         total += sec
         if sh.get("micro_cut"):
@@ -116,23 +127,37 @@ def validate(ep_dir, draft=False):
         if sh.get("support") in RULES["supports_locked"] and sh.get("movement", "static") == "static":
             locked += 1
 
+    for field, label in BOARD_FIELDS.items():
+        keys = [i for i, k in missing[field] if k]
+        rest = [i for i, k in missing[field] if not k]
+        if keys:
+            (warns if draft else errors).append(
+                f"{len(keys)} shot chủ chốt thiếu {field} ({label}): {', '.join(keys[:6])}{'…' if len(keys) > 6 else ''}")
+        if rest:
+            warns.append(f"{len(rest)} shot thường thiếu {field}: {', '.join(rest[:6])}{'…' if len(rest) > 6 else ''}")
+
+    for kind in ("subjects", "locations", "props"):
+        for key, item in (vb.get(kind) or {}).items():
+            for r in item.get("refs", []):
+                if not resolve(ep_dir, r):
+                    errors.append(f"visual-bible {kind}.{key}: không thấy ảnh tham chiếu '{r}'")
+
     if target and shots:
         dev = (total - target) / target
-        msg = f"Tổng {total:.0f}s so với mục tiêu {target:.0f}s (lệch {dev:+.1%}, cho phép ±{dur['tolerance']:.0%})"
         if abs(dev) > dur["tolerance"]:
-            (warns if draft else errors).append(msg)
-    if shots:
-        ratio = locked / len(shots)
-        if ratio < gram["locked_off_ratio_min"]:
-            warns.append(f"Máy khóa tĩnh {ratio:.0%} < {gram['locked_off_ratio_min']:.0%} theo Bible")
+            (warns if draft else errors).append(
+                f"Tổng {total:.0f}s so với mục tiêu {target:.0f}s (lệch {dev:+.1%}, cho phép ±{dur['tolerance']:.0%})")
+    if shots and locked / len(shots) < gram["locked_off_ratio_min"]:
+        warns.append(f"Máy khóa tĩnh {locked / len(shots):.0%} < {gram['locked_off_ratio_min']:.0%} theo Bible")
     if micro and not dur["micro_cut_seconds_min"] <= micro <= dur["micro_cut_seconds_max"]:
-        warns.append(f"Micro Cut {micro:.0f}s ngoài khoảng "
-                     f"{dur['micro_cut_seconds_min']}–{dur['micro_cut_seconds_max']}s")
+        warns.append(f"Micro Cut {micro:.0f}s ngoài khoảng {dur['micro_cut_seconds_min']}–{dur['micro_cut_seconds_max']}s")
+    if shots and not any(sh.get("key") for _, sh in shots):
+        warns.append("Chưa shot nào được đánh dấu key (shot chủ chốt cần hình trước)")
 
-    done = sum(1 for _, s in shots if (s.get("storyboard") or {}).get("level", "none") != "none")
-    stats = {"scenes": len(data.get("scenes", [])), "shots": len(shots), "seconds": total,
-             "target": target, "micro_cut": micro,
-             "locked_ratio": locked / len(shots) if shots else 0, "storyboard": done}
+    cov = coverage(ep_dir, data)
+    stats = {"scenes": len(data.get("scenes", [])), "shots": len(shots), "seconds": total, "target": target,
+             "micro_cut": micro, "locked_ratio": locked / len(shots) if shots else 0, "cov": cov,
+             "keys": sum(1 for _, s in shots if s.get("key"))}
     return errors, warns, stats
 
 
@@ -141,9 +166,11 @@ def main():
     if len(args) != 1:
         sys.exit(__doc__)
     errors, warns, st = validate(args[0], draft="--draft" in sys.argv)
-    print(f"{st['scenes']} cảnh · {st['shots']} shot · {st['seconds']:.0f}/{st['target']:.0f}s · "
-          f"máy tĩnh {st['locked_ratio']:.0%} · micro cut {st['micro_cut']:.0f}s · "
-          f"storyboard {st['storyboard']}/{st['shots']}")
+    c = st["cov"]
+    print(f"{st['scenes']} cảnh · {st['shots']} shot ({st['keys']} chủ chốt) · {st['seconds']:.0f}/{st['target']:.0f}s · "
+          f"máy tĩnh {st['locked_ratio']:.0%} · micro cut {st['micro_cut']:.0f}s")
+    print(f"Hình dự kiến {c['plan']}/{c['total']} · ảnh thực tế {c['real']}/{c['total']} "
+          f"(đạt {c['dat']}, cần chỉnh {c['chinh']}, quay lại {c['quay-lai']}, chờ nhận xét {c['cho']})")
     for w in warns:
         print("CẢNH BÁO  " + w)
     for e in errors:
