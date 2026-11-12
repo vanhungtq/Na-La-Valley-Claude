@@ -1,0 +1,438 @@
+{
+ "episode": "ep01",
+ "title": "TẬP 1: ĐÁNH THỨC CHÒI CŨ — LỢP MÁI CỌ & BẾP ẤM ĐÊM GIỜ XANH",
+ "status": "seed — 10 shot gốc từ Project Bible mục 6, chưa phải kịch bản đủ 22 phút",
+ "target_seconds": 1320,
+ "micro_cut_target_seconds": 58,
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "Đất thức",
+   "location": "Vườn mận",
+   "story_time": "Sáng sớm",
+   "clock_slot": "06:30-08:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Ve rừng xa, gió nhẹ",
+    "foley": "Lá khô vỡ giòn lạo xạo",
+    "accent": "",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S01-SH01",
+     "size": "Extreme Macro",
+     "focal_mm": 105,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Sát mặt đất 15cm",
+     "action": "Chồi mận non vươn lên từ lớp mùn mục. Chân sau mèo xám bước lướt qua làm rung cành khô.",
+     "motivation": "Đưa người xem chạm vào đất mẹ",
+     "characters": [
+      "meo"
+     ],
+     "props": [],
+     "seconds": 6,
+     "sound_note": "Lá khô lạo xạo",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S02",
+   "title": "Lối mòn rừng vầu",
+   "location": "Rừng vầu Hồng Thái",
+   "story_time": "Sáng sớm, sương",
+   "clock_slot": "06:30-08:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Gió lùa kẽ trúc, suối xa",
+    "foley": "Bước chân trên lá, quai gùi cọt kẹt",
+    "accent": "",
+    "bgm": "Sáo trúc ngân nhẹ"
+   },
+   "shots": [
+    {
+     "id": "S02-SH01",
+     "size": "Deep Wide",
+     "focal_mm": 24,
+     "aperture": 5.6,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Ngang tầm mắt, toàn rộng",
+     "action": "Hai chị em gùi đồ đi trên lối mòn giữa rừng vầu sương sớm; mèo xám đi sau gót chân.",
+     "motivation": "Thiết lập không gian thung lũng",
+     "characters": [
+      "chi",
+      "em",
+      "meo"
+     ],
+     "props": [
+      "gùi tre x2"
+     ],
+     "seconds": 10,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": false,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S03",
+   "title": "Đối diện chòi cũ",
+   "location": "Hiên chòi",
+   "story_time": "Sáng",
+   "clock_slot": "08:30-11:00",
+   "beat": "",
+   "sound": {
+    "ambience": "Chim hót lẻ loi",
+    "foley": "Rựa cắm đất 'phập', gùi đặt xuống đá",
+    "accent": "Tiếng thở nhẹ",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S03-SH01",
+     "size": "Medium Wide",
+     "focal_mm": 35,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Trục chính diện hiên chòi",
+     "action": "Chị chống rựa nhìn căn chòi gỗ xám mốc; Em đặt gùi xuống bậu đá, vuốt đầu mèo.",
+     "motivation": "Đối diện hiện trạng hoang phế",
+     "characters": [
+      "chi",
+      "em",
+      "meo"
+     ],
+     "props": [
+      "rựa",
+      "gùi tre"
+     ],
+     "seconds": 8,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": false,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S04",
+   "title": "Bào vách ván",
+   "location": "Vách chòi",
+   "story_time": "Sáng",
+   "clock_slot": "08:30-11:00",
+   "beat": "",
+   "sound": {
+    "ambience": "Gió núi, chim",
+    "foley": "Lưỡi sắt miết thớ gỗ 'xoẹt', bụi gỗ rơi",
+    "accent": "",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S04-SH01",
+     "size": "Medium Action",
+     "focal_mm": 50,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Nghiêng 45° đón nắng xiên",
+     "action": "Chị đẩy lưỡi bào từng đường dài trên vách ván cũ; phoi bào vàng cuộn bay trong nắng.",
+     "motivation": "Mở màn lao động thô",
+     "characters": [
+      "chi"
+     ],
+     "props": [
+      "bào gỗ"
+     ],
+     "seconds": 7,
+     "sound_note": "Foley đanh",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S05",
+   "title": "Quét dầu trẩu",
+   "location": "Vách chòi",
+   "story_time": "Chiều muộn",
+   "clock_slot": "16:30-17:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Gió chiều",
+    "foley": "Lông cọ miết trên gỗ khô",
+    "accent": "Tiếng hít hà",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S05-SH01",
+     "size": "Close-up Macro",
+     "focal_mm": 105,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Cận bề mặt gỗ",
+     "action": "Chổi quét một vệt dầu trẩu; thớ gỗ xám chuyển vàng hổ phách.",
+     "motivation": "Sự biến đổi vật lý",
+     "characters": [
+      "em"
+     ],
+     "props": [
+      "dầu trẩu",
+      "chổi lông"
+     ],
+     "seconds": 6,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S06",
+   "title": "Lợp mái cọ",
+   "location": "Mái chòi",
+   "story_time": "Chiều",
+   "clock_slot": "14:00-16:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Gió đồi",
+    "foley": "Cuống cọ va tre 'soạt', gãy 'RẮC', kìm vặn kẽm",
+    "accent": "Tiếng gọi 'chị ơi'",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S06-SH01",
+     "size": "Low Angle Hero",
+     "focal_mm": 24,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Ngửa 35° từ sân lên sườn mái",
+     "action": "Chị trên giàn giáo tre đón tàu lá cọ từ tay Em rướn người giơ lên.",
+     "motivation": "Tôn vinh nhịp phối hợp",
+     "characters": [
+      "chi",
+      "em"
+     ],
+     "props": [
+      "lá cọ",
+      "giàn giáo tre"
+     ],
+     "seconds": 8,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": false,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    },
+    {
+     "id": "S06-SH02",
+     "size": "Insert Macro",
+     "focal_mm": 105,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Siêu cận cách 80cm",
+     "action": "Hai tay Chị gập cuống cọ ngoắc qua nan mè tre; kìm siết mối dây thép.",
+     "motivation": "Kỹ thuật bẻ cuống cọ truyền thống",
+     "characters": [
+      "chi"
+     ],
+     "props": [
+      "kìm",
+      "dây thép"
+     ],
+     "seconds": 5,
+     "sound_note": "RẮC + ken két",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S07",
+   "title": "Sơ chế gà và nấm",
+   "location": "Bếp ngoài hiên",
+   "story_time": "Chiều muộn",
+   "clock_slot": "16:30-17:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Suối xa",
+    "foley": "Dao chặt lún thớt nghiến, nước rửa nấm róc rách",
+    "accent": "",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S07-SH01",
+     "size": "High Angle Top-down",
+     "focal_mm": 50,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Thẳng đứng 90° xuống thớt nghiến",
+     "action": "Em khía 3 đường hoa sao trên mũ nấm hương; chặt từng miếng gà đồi.",
+     "motivation": "Sơ chế gà đồi và nấm hương rừng",
+     "characters": [
+      "em"
+     ],
+     "props": [
+      "thớt nghiến",
+      "dao rèn",
+      "nấm hương",
+      "gà đồi"
+     ],
+     "seconds": 8,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S08",
+   "title": "Chảo gang",
+   "location": "Bếp củi",
+   "story_time": "Chạng vạng",
+   "clock_slot": "17:30-18:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Lửa củi reo",
+    "foley": "Mỡ xèo dữ dội, muôi chạm chảo",
+    "accent": "Củi nổ tách",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S08-SH01",
+     "size": "Medium Sizzle",
+     "focal_mm": 70,
+     "aperture": 4,
+     "fps": 60,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Cận chảo gang trên bếp củi",
+     "action": "Trút gà, măng chua, nấm vào chảo sôi bốc khói; rưới muôi mỡ phi gừng sả.",
+     "motivation": "Đỉnh cao vị giác",
+     "characters": [
+      "chi"
+     ],
+     "props": [
+      "chảo gang",
+      "măng chua"
+     ],
+     "seconds": 8,
+     "sound_note": "Sizzle bùng nổ",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "S09",
+   "title": "Mâm cơm giờ xanh",
+   "location": "Hiên chòi",
+   "story_time": "Giờ xanh",
+   "clock_slot": "17:30-18:30",
+   "beat": "",
+   "sound": {
+    "ambience": "Mưa rừng rả rích trên mái cọ",
+    "foley": "Bát đũa lách cách",
+    "accent": "Tiếng cười khúc khích",
+    "bgm": "Guitar nylon rất khẽ"
+   },
+   "shots": [
+    {
+     "id": "S09-SH01",
+     "size": "Cinematic Blue Hour Wide",
+     "focal_mm": 35,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "Toàn cảnh ngang ngực",
+     "action": "Hai chị em ăn niêu cơm nóng bên bàn gỗ ngoài hiên; đèn sợi đốt vàng, mèo ăn cá bên cạnh.",
+     "motivation": "Chữa lành, lắng đọng",
+     "characters": [
+      "chi",
+      "em",
+      "meo"
+     ],
+     "props": [
+      "niêu cơm",
+      "đèn dây Edison",
+      "bàn gỗ"
+     ],
+     "seconds": 10,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": true,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  }
+ ]
+}

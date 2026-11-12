@@ -1,0 +1,40 @@
+{
+  "_ghi_chu": "Ràng buộc cứng trích từ Project Bible mục 3, 5, 7. scripts/validate_episode.py đọc file này. Sửa ở đây khi đổi thiết bị.",
+  "camera": {
+    "body": "Sony A6400 (APS-C, 8-bit 4:2:0 XAVC S 4K)",
+    "lens": "Sony E PZ 18-105mm F4 G OSS",
+    "focal_mm_min": 18,
+    "focal_mm_max": 105,
+    "crop_factor": 1.5,
+    "aperture_min": 4,
+    "fps_allowed": [24, 25, 60]
+  },
+  "grammar": {
+    "locked_off_ratio_min": 0.85,
+    "wide_focal_max": 35,
+    "tele_focal_min": 70,
+    "matching_cut_min_shots_per_scene": 4,
+    "shot_seconds_warn_max": 25
+  },
+  "duration": {
+    "tolerance": 0.05,
+    "micro_cut_seconds_min": 45,
+    "micro_cut_seconds_max": 60
+  },
+  "supports_locked": ["tripod"],
+  "supports_allowed": ["tripod", "handheld", "slider", "gimbal"],
+  "characters": {
+    "chi": "Người Chị, 26 — áo chàm/chần bông nâu đất, khăn quấn tóc",
+    "em": "Người Em, 23 — áo len be ngà/chần bông đỏ gạch, tạp dề lanh, bím lệch",
+    "meo": "Chú Mèo Xám, 2 — lông xám tro, mắt hổ phách"
+  },
+  "clock_slots": {
+    "06:30-08:30": "Nắng sớm & sương mù — toàn cảnh, lối mòn, god rays",
+    "08:30-11:00": "Lao động nặng ngoài trời — bắt buộc Variable ND",
+    "11:00-13:30": "Nghỉ, sao lưu thẻ — chỉ quay nội thất/insert nếu cần",
+    "14:00-16:30": "Chiều mềm — cao trào, quay 2 đợt toàn + tele",
+    "16:30-17:30": "Giờ vàng — vách gỗ, quét dầu, tỉa nấm",
+    "17:30-18:30": "Giờ xanh — COB bù sáng hiên, lửa, đèn dây, mâm cơm"
+  },
+  "storyboard_levels": ["none", "svg", "ai"]
+}

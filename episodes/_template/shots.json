@@ -1,0 +1,48 @@
+{
+ "episode": "epNN",
+ "title": "",
+ "status": "draft",
+ "target_seconds": 1200,
+ "micro_cut_target_seconds": 55,
+ "scenes": [
+  {
+   "id": "S01",
+   "title": "",
+   "location": "",
+   "story_time": "",
+   "clock_slot": "06:30-08:30",
+   "beat": "",
+   "sound": {
+    "ambience": "",
+    "foley": "",
+    "accent": "",
+    "bgm": ""
+   },
+   "shots": [
+    {
+     "id": "S01-SH01",
+     "size": "",
+     "focal_mm": 35,
+     "aperture": 4,
+     "fps": 24,
+     "support": "tripod",
+     "movement": "static",
+     "angle": "",
+     "action": "",
+     "motivation": "",
+     "characters": [],
+     "props": [],
+     "seconds": 5,
+     "sound_note": "",
+     "pair": null,
+     "micro_cut": false,
+     "storyboard": {
+      "level": "none",
+      "image": null,
+      "panel": null
+     }
+    }
+   ]
+  }
+ ]
+}
