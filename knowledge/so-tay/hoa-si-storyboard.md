@@ -8,7 +8,7 @@ Agent `hoa-si-storyboard` đọc file này **trước mỗi lần làm việc**.
 
 ## Bài học từ chủ dự án
 
-*(Chưa có. Mỗi lần chủ dự án sửa hoặc từ chối một sản phẩm của vai trò này, ghi lại: ngày, tập, điều bị sửa, quy tắc rút ra.)*
+- **2026-11-12, tập 1.** Showrunner xin chủ dự án tải lại 6 ảnh gốc vì ảnh đầu vào là ảnh chụp màn hình gồm 6 ảnh nhỏ. Chủ dự án trả lời: không cần ảnh gốc, các model tạo ảnh hiểu rõ ảnh tham chiếu. **Quy tắc:** ảnh chụp màn hình hay ảnh ghép nhiều ô là ảnh tham chiếu hợp lệ. Dùng nguyên ảnh đó trong `refs` và gói prompt; nếu cần, trong prompt chỉ rõ ô nào (theo chú thích của chủ dự án). Không xin lại ảnh gốc hay ảnh độ phân giải cao hơn. Vẫn được nêu ảnh *chưa có* (nhân vật, đạo cụ, bên trong chòi), nhưng là gợi ý, không phải điều kiện.
 
 ## Bài học từ thực địa
 
